@@ -1,4 +1,4 @@
-# NewDy_REST_APII
+# NewDy_REST_API
 영양제 프로젝트 ( Spring, JPA , Batch )
 
 3인 구성
