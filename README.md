@@ -10,3 +10,7 @@
 ERD 1차
 
 ![image](https://github.com/LeeJaeYoung0706/NewDy_REST_APII/assets/148510209/540a2040-1240-48b8-a9ee-c543350a5a06)
+
+Jira
+
+https://wodud4019.atlassian.net/jira/software/projects/NEWDY/boards/5/timeline
