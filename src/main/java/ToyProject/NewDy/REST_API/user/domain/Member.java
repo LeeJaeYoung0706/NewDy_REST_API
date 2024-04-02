@@ -15,6 +15,11 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
+//정적 쿼리 아이디로 검색
+@NamedQuery(
+        name = "Member.findBySigninId",
+        query = "select m from Member m where m.signinId = :signinId"
+)
 public class Member extends DateBaseEntity {
 
     @Id
@@ -41,7 +46,7 @@ public class Member extends DateBaseEntity {
     /**
      * 기존 OneToMany 이지만 다대일로 변경해서 사용합니다. 성능이슈 및 유지보수를 위해서
      */
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member" , cascade = CascadeType.ALL , orphanRemoval = true)
     private List<Address> address;
 
     @Column(unique = true, name = "email", nullable = false, columnDefinition = "varchar(512)")
@@ -52,7 +57,7 @@ public class Member extends DateBaseEntity {
     private Date birth;
 
     @Column(name = "signin_id" , unique = true, nullable = false)
-    private String signin_id;
+    private String signinId;
 
     //탈퇴 여부
     @Column(name = "secessionYN")
@@ -63,6 +68,6 @@ public class Member extends DateBaseEntity {
     @Enumerated(EnumType.STRING)
     private MemberGarde garde;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member" , cascade = CascadeType.ALL , orphanRemoval = true)
     private List<Point> point;
 }
