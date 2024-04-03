@@ -2,7 +2,7 @@ package ToyProject.NewDy.REST_API.auth.domain;
 
 import ToyProject.NewDy.REST_API.auth.enums.AuthEnum;
 import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;
-import ToyProject.NewDy.REST_API.user.domain.Member;
+import ToyProject.NewDy.REST_API.member.domain.Member;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -36,7 +36,7 @@ public class AuthMember {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-    @Column(name = "auth_grade")
+    @Column(name = "auth_role")
     @Enumerated(EnumType.STRING)
-    private AuthEnum authGrade;
+    private AuthEnum authRole;
 }

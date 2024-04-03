@@ -3,8 +3,8 @@ package ToyProject.NewDy.REST_API.user;
 
 import ToyProject.NewDy.REST_API.common.domain.Address;
 import ToyProject.NewDy.REST_API.common.repository.AddressRepository;
-import ToyProject.NewDy.REST_API.user.domain.Member;
-import ToyProject.NewDy.REST_API.user.repository.MemberRepository;
+import ToyProject.NewDy.REST_API.member.domain.Member;
+import ToyProject.NewDy.REST_API.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

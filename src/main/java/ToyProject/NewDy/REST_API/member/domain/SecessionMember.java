@@ -1,4 +1,4 @@
-package ToyProject.NewDy.REST_API.user.domain;
+package ToyProject.NewDy.REST_API.member.domain;
 
 
 import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;

@@ -1,11 +1,9 @@
 package ToyProject.NewDy.REST_API.common.domain;
 
 import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;
-import ToyProject.NewDy.REST_API.user.domain.Member;
+import ToyProject.NewDy.REST_API.member.domain.Member;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 

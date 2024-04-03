@@ -1,10 +1,10 @@
-package ToyProject.NewDy.REST_API.user.domain;
+package ToyProject.NewDy.REST_API.member.domain;
 
 import ToyProject.NewDy.REST_API.common.domain.Address;
 import ToyProject.NewDy.REST_API.common.domain.DateBaseEntity;
 import ToyProject.NewDy.REST_API.common.enums.YesOrNo;
 import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;
-import ToyProject.NewDy.REST_API.user.enums.MemberGarde;
+import ToyProject.NewDy.REST_API.member.enums.MemberGarde;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

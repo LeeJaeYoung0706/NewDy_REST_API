@@ -1,4 +1,4 @@
-package ToyProject.NewDy.REST_API.user.repository;
+package ToyProject.NewDy.REST_API.member.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
