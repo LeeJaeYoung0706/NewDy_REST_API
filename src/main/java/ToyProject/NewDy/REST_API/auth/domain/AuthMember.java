@@ -1,5 +1,6 @@
 package ToyProject.NewDy.REST_API.auth.domain;
 
+import ToyProject.NewDy.REST_API.auth.enums.AuthEnum;
 import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;
 import ToyProject.NewDy.REST_API.user.domain.Member;
 import jakarta.persistence.*;
@@ -32,8 +33,10 @@ public class AuthMember {
     private String signinId;
     @Column(name = "password")
     private String password;
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+    @Column(name = "auth_grade")
+    @Enumerated(EnumType.STRING)
+    private AuthEnum authGrade;
 }
