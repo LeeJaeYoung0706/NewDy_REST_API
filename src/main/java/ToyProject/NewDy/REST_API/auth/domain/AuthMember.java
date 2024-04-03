@@ -1,17 +1,12 @@
-package ToyProject.NewDy.REST_API.user.domain;
+package ToyProject.NewDy.REST_API.auth.domain;
 
 import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;
+import ToyProject.NewDy.REST_API.user.domain.Member;
 import jakarta.persistence.*;
-import lombok.Getter;
-import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.CreatedDate;
-
-import java.time.LocalDateTime;
 
 @Entity
-@Getter
-public class Point {
+public class AuthMember {
 
     @Id
     @GeneratedValue(generator = "custom_generator")
@@ -27,22 +22,18 @@ public class Point {
                     ), // 캐싱 사이즈
                     @org.hibernate.annotations.Parameter(
                             name = "prefix",
-                            value = "point"
+                            value = "auth"
                     )
             },
             type = CustomSequenceGenerator.class)
-    @Column(name = "point_id")
+    @Column(name = "auth_member_id")
     private String id;
+    @Column(name = "signin_id" , unique = true)
+    private String signinId;
+    @Column(name = "password")
+    private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
-    @Column(name = "accumulation_date")
-    @CreatedDate
-    private LocalDateTime accumulationDate;
-
-    @Column(name = "point_value")
-    @Comment("포인트 값")
-    private Long point;
 }
