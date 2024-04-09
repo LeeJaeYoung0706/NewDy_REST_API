@@ -4,6 +4,7 @@ import ToyProject.NewDy.REST_API.common.domain.Address;
 import ToyProject.NewDy.REST_API.common.domain.DateBaseEntity;
 import ToyProject.NewDy.REST_API.common.enums.YesOrNo;
 import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;
+import ToyProject.NewDy.REST_API.member.enums.MemberGarde;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -58,17 +59,23 @@ public class Member extends DateBaseEntity {
     @Column(name = "birth")
     @Temporal(TemporalType.DATE)
     private Date birth;
+
     // CascadeType.ALL 사용시 select 2번 나감 ( 트랜잭션 처리 안했을 경우 1번 select 하기 때문에 )
     @OneToMany(mappedBy = "member" , cascade = CascadeType.PERSIST , orphanRemoval = true)
     private List<Point> pointList = new ArrayList<>();
 
     //탈퇴 여부
-    @Column(name = "secessionYN" , columnDefinition = "varchar(32) default 'N'")
+    @Column(length = 32, name = "secessionYN" , columnDefinition = "varchar(32) default 'N'")
     @Enumerated(EnumType.STRING)
     private YesOrNo secessionYesOrNo = YesOrNo.N;
 
-    @Column(name = "signin_id" , unique = true, nullable = false)
+    @Column(length = 255, name = "signin_id" , unique = true, nullable = false)
     private String signinId;
+
+    @Column(length = 32 , name = "grade" , columnDefinition = "varchar(32) default 'BRONZE'")
+    @Enumerated(EnumType.STRING)
+    private MemberGarde garde = MemberGarde.BRONZE;
+
 
     @Builder
     private Member(String email, Date birth, String signinId) {
@@ -96,20 +103,6 @@ public class Member extends DateBaseEntity {
     //    @OneToMany(fetch = FetchType.LAZY)
     //    @JoinColumn(name = "member_id")
     //    private List<Point> point = new ArrayList<>();
-
-
-
-//
-
-//
-
-//
-//    @Column(name = "grade")
-//    @Enumerated(EnumType.STRING)
-//    private MemberGarde garde;
-//
-//    @OneToMany(mappedBy = "member")
-//    private List<Point> point;
 
 //    @OneToOne(mappedBy = "member")
 //    private AuthMember authMember;
