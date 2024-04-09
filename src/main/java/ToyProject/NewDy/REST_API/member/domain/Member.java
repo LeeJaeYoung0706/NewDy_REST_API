@@ -5,8 +5,10 @@ import ToyProject.NewDy.REST_API.common.domain.DateBaseEntity;
 import ToyProject.NewDy.REST_API.common.enums.YesOrNo;
 import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;
@@ -15,11 +17,11 @@ import java.util.List;
 
 @Entity
 @Getter
-//정적 쿼리 아이디로 검색
-//@NamedQuery(
-//        name = "Member.findBySigninId",
-//        query = "select m from Member m where m.signinId = :signinId"
-//)
+// 정적 쿼리 아이디로 검색
+@NamedQuery(
+        name = "Member.findBySigninId",
+        query = "select m from Member m where m.signinId = :signinId"
+)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends DateBaseEntity {
 
