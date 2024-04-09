@@ -1,16 +1,15 @@
 package ToyProject.NewDy.REST_API.common.domain;
 
 import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;
-import ToyProject.NewDy.REST_API.user.domain.Member;
+import ToyProject.NewDy.REST_API.member.domain.Member;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Getter @Setter
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Address extends DateBaseEntity {
 
     @Id
@@ -34,20 +33,47 @@ public class Address extends DateBaseEntity {
     @Column(name = "address_id")
     private String id;
 
-    @Column(name = "city")
+    @Column(name = "city" , columnDefinition = "varchar(255) not null")
     private String city;
 
-    @Column(name = "street")
+    @Column(name = "street" , columnDefinition = "varchar(255) not null")
     private String street;
 
-    @Column(name = "zip_code")
+    @Column(name = "zip_code" , columnDefinition = "varchar(128)" , nullable = false)
     private String zipCode;
 
     /**
      * 기존 OneToMany 이지만 다대일로 변경해서 사용합니다. 성능이슈 및 유지보수를 위해서
+     *
+     * @NotNull 또는 Column 에 직접 주입 가능
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "member_id")
+    @NotNull
     private Member member;
+
+    private void setMember(Member member) {
+        this.member = member;
+        // 없으면 영속성 컨텍스트의 member에는 address가 존재하지 않게 됩니다.
+        member.getAddressList().add(this);
+    }
+
+    @Builder
+    private Address(String city, String street, String zipCode, Member member) {
+        this.city = city;
+        this.street = street;
+        this.zipCode = zipCode;
+        setMember(member);
+    }
+
+    public static Address createAddress(String city, String street , String zipCode, Member member){
+        Address address = Address.builder()
+                .city(city)
+                .street(street)
+                .zipCode(zipCode)
+                .member(member)
+                .build();
+        return address;
+    }
 
 }
