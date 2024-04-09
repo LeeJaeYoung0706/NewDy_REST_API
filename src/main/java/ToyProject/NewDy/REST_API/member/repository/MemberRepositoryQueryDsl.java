@@ -1,4 +1,4 @@
-package ToyProject.NewDy.REST_API.member.repository;
-
-public interface MemberRepositoryQueryDsl {
-}
+//package ToyProject.NewDy.REST_API.member.repository;
+//
+//public interface MemberRepositoryQueryDsl {
+//}
