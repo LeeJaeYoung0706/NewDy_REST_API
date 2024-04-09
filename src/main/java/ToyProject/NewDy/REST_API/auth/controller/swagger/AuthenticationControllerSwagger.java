@@ -1,4 +1,4 @@
-package ToyProject.NewDy.REST_API.auth.swagger;
+package ToyProject.NewDy.REST_API.auth.controller.swagger;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 

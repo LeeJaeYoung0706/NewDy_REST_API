@@ -1,17 +1,23 @@
-package ToyProject.NewDy.REST_API.user.domain;
+package ToyProject.NewDy.REST_API.member.domain;
+
 
 import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Getter
-public class Point {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class SecessionMember {
 
     @Id
     @GeneratedValue(generator = "custom_generator")
@@ -27,22 +33,20 @@ public class Point {
                     ), // 캐싱 사이즈
                     @org.hibernate.annotations.Parameter(
                             name = "prefix",
-                            value = "point"
+                            value = "secession"
                     )
             },
             type = CustomSequenceGenerator.class)
-    @Column(name = "point_id")
+    @Column(name = "secession_id")
     private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "secessoion_date")
+    @Comment("탈퇴일")
+    @CreatedDate
+    private LocalDateTime secessionDate;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
-    @Column(name = "accumulation_date")
-    @CreatedDate
-    private LocalDateTime accumulationDate;
-
-    @Column(name = "point_value")
-    @Comment("포인트 값")
-    private Long point;
 }

@@ -1,4 +1,4 @@
-package ToyProject.NewDy.REST_API.user.dto;
+package ToyProject.NewDy.REST_API.member.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;

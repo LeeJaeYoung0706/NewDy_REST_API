@@ -21,9 +21,9 @@ public class DateBaseEntity {
     @CreatedDate
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime createdBy;
+    private LocalDateTime createdTime;
 
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime lastModifiedBy;
+    private LocalDateTime lastModifiedTime;
 }
