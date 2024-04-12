@@ -1,18 +1,16 @@
 package ToyProject.NewDy.REST_API.member;
 
 
-import ToyProject.NewDy.REST_API.auth.enums.AuthEnum;
 import ToyProject.NewDy.REST_API.common.domain.Address;
 import ToyProject.NewDy.REST_API.common.repository.AddressRepository;
 import ToyProject.NewDy.REST_API.member.domain.Member;
-import ToyProject.NewDy.REST_API.member.domain.Point;
+import ToyProject.NewDy.REST_API.point.domain.Point;
 import ToyProject.NewDy.REST_API.member.enums.PointKind;
 import ToyProject.NewDy.REST_API.member.repository.MemberRepository;
-import ToyProject.NewDy.REST_API.member.repository.PointRepository;
+import ToyProject.NewDy.REST_API.point.repository.PointRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +19,6 @@ import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
-import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -48,7 +44,7 @@ public class MemberTest {
     @Transactional
     public void memberSaveTest() {
         Member 멤버 = Member.createMember( Date.valueOf("2023-03-04"), "test@naver.com");
-        Point point = Point.createPoint(300L, PointKind.SIGN_IN , 멤버);
+        Point point = Point.createPoint(300, PointKind.SIGN_IN , 멤버);
         Address 주소 = Address.createAddress("테스트 시티", " 테스트 스트릿 ", " 테스트 집코드 " , 멤버);
 
         Member 저장멤버 = memberRepository.save(멤버);

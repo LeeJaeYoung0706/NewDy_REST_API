@@ -4,11 +4,14 @@ import ToyProject.NewDy.REST_API.common.domain.Address;
 import ToyProject.NewDy.REST_API.common.domain.DateBaseEntity;
 import ToyProject.NewDy.REST_API.common.enums.YesOrNo;
 import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;
-import ToyProject.NewDy.REST_API.member.enums.MemberGarde;
+import ToyProject.NewDy.REST_API.member.enums.MemberGrade;
+import ToyProject.NewDy.REST_API.point.domain.Point;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;
@@ -23,7 +26,10 @@ import java.util.List;
         query = "select m from Member m where m.signinId = :signinId"
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert
+@DynamicUpdate
 @ToString(exclude = {"addressList" , "pointList"} , callSuper = true)
+@Table(name = "member")
 public class Member extends DateBaseEntity {
 
     @Id
@@ -73,7 +79,7 @@ public class Member extends DateBaseEntity {
     @Column(length = 32 , name = "grade" , columnDefinition = "varchar(32) default 'BRONZE'")
     @Enumerated(EnumType.STRING)
     @Comment("member 등급 혜텍 전용")
-    private MemberGarde garde = MemberGarde.BRONZE;
+    private MemberGrade garde = MemberGrade.BRONZE;
 
     @Builder
     private Member(Date birth, String signinId) {
