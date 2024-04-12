@@ -9,7 +9,6 @@ import java.io.Serializable;
 
 
 @Getter
-@ToString
 public class Response<T> extends ResponseEntity implements Serializable {
 
     private static final long serialVersionUID = 362498820763181265L;

@@ -18,10 +18,10 @@ public class MemberSignInLog {
     @GeneratedValue(generator = "custom_generator")
     @GenericGenerator(name = "custom_generator",
             parameters = {
-                    @org.hibernate.annotations.Parameter(
-                            name = "initial_value",
-                            value = "1"
-                    ), // 시작점
+//                    @org.hibernate.annotations.Parameter(
+//                            name = "initial_value",
+//                            value = "1"
+//                    ), // 시작점
                     @org.hibernate.annotations.Parameter(
                             name = "increment_size",
                             value = "50"

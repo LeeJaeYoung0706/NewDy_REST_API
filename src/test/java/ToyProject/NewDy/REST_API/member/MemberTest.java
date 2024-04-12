@@ -1,6 +1,7 @@
 package ToyProject.NewDy.REST_API.member;
 
 
+import ToyProject.NewDy.REST_API.auth.enums.AuthEnum;
 import ToyProject.NewDy.REST_API.common.domain.Address;
 import ToyProject.NewDy.REST_API.common.repository.AddressRepository;
 import ToyProject.NewDy.REST_API.member.domain.Member;
@@ -46,10 +47,7 @@ public class MemberTest {
     @DisplayName("Member Save Test")
     @Transactional
     public void memberSaveTest() {
-
-
-
-        Member 멤버 = Member.createMember("테스트 이메일" , Date.valueOf("2023-03-04"), "test@naver.com");
+        Member 멤버 = Member.createMember( Date.valueOf("2023-03-04"), "test@naver.com");
         Point point = Point.createPoint(300L, PointKind.SIGN_IN , 멤버);
         Address 주소 = Address.createAddress("테스트 시티", " 테스트 스트릿 ", " 테스트 집코드 " , 멤버);
 
@@ -66,8 +64,9 @@ public class MemberTest {
 //        저장멤버.getAddress().remove(저장주소);
 
         //객체 맞는지 검증
-//        assertThat(저장주소).isEqualTo(저장멤버.getAddress().get(0));
-//        assertThat(저장주소.getMember()).isEqualTo(멤버);
-//        assertThat(저장주소.getMember()).isEqualTo(저장멤버);
+        assertThat(저장주소).isEqualTo(멤버.getAddressList().get(0));
+        assertThat(저장주소.getMember()).isEqualTo(멤버);
+        assertThat(저장주소.getMember()).isEqualTo(멤버);
+        assertThat(point.getPoint()).isEqualTo(멤버.getPointList().get(0).getPoint());
     }
 }

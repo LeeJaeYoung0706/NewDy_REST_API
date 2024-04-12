@@ -12,20 +12,23 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+/**
+ * 포인트 관련 Entity
+ * 기능 정리
+ * 1. Member가 회원가입 또는 출석체크 등 어떠한 액션을 취할 때 적립
+ * 2. 포인트가 1년이 지나면 삭제 되도록 배치 스케줄러 등록
+ */
 @Entity
-@Getter @Setter
+@Getter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(exclude = {"member"} , callSuper = true)
 public class Point  {
 
     @Id
     @GeneratedValue(generator = "custom_generator")
     @GenericGenerator(name = "custom_generator",
             parameters = {
-                    @org.hibernate.annotations.Parameter(
-                            name = "initial_value",
-                            value = "1"
-                    ), // 시작점
                     @org.hibernate.annotations.Parameter(
                             name = "increment_size",
                             value = "50"
@@ -46,10 +49,11 @@ public class Point  {
     @Column(name = "accumulation_date" , updatable = false)
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
+    @Comment("포인트 적립일")
     private LocalDateTime accumulationDate;
 
     @Column(name = "point_value")
-    @Comment("포인트 값")
+    @Comment("포인트 량")
     private Long point;
 
     @Column(name = "kind")
@@ -63,14 +67,21 @@ public class Point  {
         this.kind = kind;
     }
 
-    private void setsMember(Member member) {
+    /**
+     * 편의 메소드
+     * @param member
+     */
+    private void setMember(Member member) {
         this.member = member;
         member.getPointList().add(this);
     }
 
     public static Point createPoint(Long point, PointKind kind, Member member) {
-        Point result = Point.builder().kind(kind).point(point).build();
-        result.setsMember(member);
+        Point result = Point.builder()
+                .kind(kind)
+                .point(point)
+                .build();
+        result.setMember(member);
         return result;
     }
 
