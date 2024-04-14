@@ -31,6 +31,10 @@ public class DefaultMemberService extends MemberSaveTemplate implements MemberSe
     @Override
     @Transactional
     public Member memberSave(SignUpMemberDTO signUpMemberDTO) {
+
+        if (existSigninIdCheck(signUpMemberDTO.getSigninId()))
+            throw new IllegalStateException("이미 존재하는 아이디입니다.");
+
         Member member = super.memberSave(signUpMemberDTO);
         Member save = memberRepository.save(member);
         //log.info("동일성 비교 = {}  , {}", member == save , member);
@@ -47,6 +51,10 @@ public class DefaultMemberService extends MemberSaveTemplate implements MemberSe
     protected void changeMemberSaveDerivation(SignUpMemberDTO signUpMemberDTO, Member member) {
         Address.createAddress(signUpMemberDTO.getCity(), signUpMemberDTO.getStreet(), signUpMemberDTO.getZipCode(), member);
         pointService.addPoint(member, 500 , PointKind.SIGN_UP);
+    }
+
+    public boolean existSigninIdCheck(String signinId){
+        return memberRepository.existsBySigninId(signinId);
     }
 
 }

@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: REST_API
+  jwt:
+    header: Authorization
+    secret: ZXJzdFJlc3RBUElBcHBsaWNhdGlvbg==
   datasource:
     driver-class-name: org.postgresql.Driver
     jdbc-url: jdbc:postgresql://localhost:5432/newdy
