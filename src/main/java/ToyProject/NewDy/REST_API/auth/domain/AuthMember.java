@@ -1,61 +1,90 @@
-//package ToyProject.NewDy.REST_API.auth.domain;
-//
-//import ToyProject.NewDy.REST_API.auth.enums.AuthEnum;
-//import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;
-//import ToyProject.NewDy.REST_API.member.domain.Member;
-//import jakarta.persistence.*;
-//import lombok.AccessLevel;
-//import lombok.Builder;
-//import lombok.NoArgsConstructor;
-//import org.hibernate.annotations.GenericGenerator;
-//
-//@Entity
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
-//public class AuthMember {
-//
-//    @Id
-//    @GeneratedValue(generator = "custom_generator")
-//    @GenericGenerator(name = "custom_generator",
-//            parameters = {
-//                    @org.hibernate.annotations.Parameter(
-//                            name = "initial_value",
-//                            value = "1"
-//                    ), // 시작점
-//                    @org.hibernate.annotations.Parameter(
-//                            name = "increment_size",
-//                            value = "50"
-//                    ), // 캐싱 사이즈
-//                    @org.hibernate.annotations.Parameter(
-//                            name = "prefix",
-//                            value = "auth"
-//                    )
-//            },
-//            type = CustomSequenceGenerator.class)
-//    @Column(name = "auth_member_id")
-//    private String id;
-//    @Column(name = "signin_id" , unique = true)
-//    private String signinId;
-//    @Column(name = "password")
-//    private String password;
-////    @OneToOne(fetch = FetchType.LAZY)
-////    @JoinColumn(name = "member_id")
-////    private Member member;
-//    @Column(name = "auth_role")
-//    @Enumerated(EnumType.STRING)
-//    private AuthEnum authRole;
-//    @Column(name = "enable")
-//    private boolean enable;
-//
-//    @Builder
-//    private AuthMember(String signinId, String password, Member member, AuthEnum authRole, boolean enable) {
-//        this.signinId = signinId;
-//        this.password = password;
-//        this.member = member;
-//        this.authRole = authRole;
-//        this.enable = enable;
-//    }
-//
-//    public AuthMember of(String signinId, String password, Member member, AuthEnum authRole){
-//        return new AuthMember(signinId , password, member, authRole, true);
-//    }
-//}
+package ToyProject.NewDy.REST_API.auth.domain;
+
+import ToyProject.NewDy.REST_API.auth.dto.SignUpMemberDTO;
+import ToyProject.NewDy.REST_API.auth.enums.AuthEnum;
+import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.GenericGenerator;
+
+/**
+ * auth Service가 MSA 형태로 변화한다면 Member Service의 Member Entity와 연관관계를 맺기 어려워 짐으로
+ * signInId를 공유하고 이를 통해 페인클라이언트나 웹클라이언트로 접근하는 방식으로 선택하려고합니다.
+ *
+ *  password 를 Entity안에서 의존성 주입을 받아 암호화하는 것은 좋지 못합니다.
+ * 우선 엔티티 클래스는 스프링 컨테이너가 관리하는 빈이 아니기 때문에 기본적인 방법으로는 스프링의 의존성 주입을 받을 수 없습니다. 단 스프링을 사용할 때 엔티티에 의존성 주입을 받게 할 수 있는 방법이 있는데, 스프링 load time weaving 으로 검색해보시면 방법이 있습니다.
+ *
+ * 그런데 사실 이런 방식을 저도 과거에 시도해본적이 있는데, 결국 이게 유지보수성을 많이 떨어뜨리고, 테스트를 어렵게한 다는 것을 경험으로 알게 되었습니다.
+ *
+ * 그래서 저는 엔티티가 필드를 통에 외부 의존성을 강하게 가지는 것은 권장하지 않습니다.
+ * 김영한님의 말.
+ *
+ */
+@Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(exclude = {})
+public class AuthMember {
+
+    @Id
+    @GeneratedValue(generator = "custom_generator")
+    @GenericGenerator(name = "custom_generator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(
+                            name = "increment_size",
+                            value = "50"
+                    ), // 캐싱 사이즈
+                    @org.hibernate.annotations.Parameter(
+                            name = "prefix",
+                            value = "auth"
+                    )
+            },
+            type = CustomSequenceGenerator.class)
+    @Column(name = "auth_member_id")
+    private String id;
+
+    @Column(length = 255, name = "signin_id" , unique = true, nullable = false)
+    @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$")
+    @Comment("email 형식의 로그인 아이디")
+    private String signinId;
+
+    @Column(name = "password")
+    @Comment("회원 비밀번호")
+    private String password;
+    // 초기화 안할 경우 객체 조회시 null로 리턴함으로 주의
+    //, columnDefinition = "varchar(10) default 'ROLE_USER'"
+    @Column(length = 10, name = "auth_role")
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("'ROLE_USER'")
+    @Comment("security role")
+    private AuthEnum authRole = AuthEnum.ROLE_USER;
+
+    @Column(name = "enable")
+    @ColumnDefault("true")
+    @Comment("회원 활성화 여부")
+    private boolean enable = true;
+
+    private AuthMember(String signinId, String password, AuthEnum authRole) {
+        this.signinId = signinId;
+        this.password = password;
+        this.authRole = authRole;
+    }
+
+    private AuthMember(String signinId, String password) {
+        this.signinId = signinId;
+        this.password = password;
+    }
+
+    public static AuthMember createUserAuthMember(SignUpMemberDTO signUpMemberDTO, String encodePassword){
+        return new AuthMember(signUpMemberDTO.getSigninId(), encodePassword);
+    }
+
+    public static AuthMember createAdminAuthMember(SignUpMemberDTO signUpMemberDTO, String encodePassword){
+        return new AuthMember(signUpMemberDTO.getSigninId(), encodePassword , AuthEnum.ROLE_ADMIN);
+    }
+
+}

@@ -14,3 +14,5 @@ ERD 1차
 Jira
 
 https://wodud4019.atlassian.net/jira/software/projects/NEWDY/boards/5/timeline
+
+## 삭제 방식 : 얕은 삭제 방식 선택

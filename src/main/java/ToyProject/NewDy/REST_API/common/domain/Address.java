@@ -5,21 +5,23 @@ import ToyProject.NewDy.REST_API.member.domain.Member;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(exclude = {"member"} , callSuper = true)
 public class Address extends DateBaseEntity {
 
     @Id
     @GeneratedValue(generator = "custom_generator")
     @GenericGenerator(name = "custom_generator",
             parameters = {
-                    @org.hibernate.annotations.Parameter(
-                            name = "initial_value",
-                            value = "1"
-                    ), // 시작점
+//                    @org.hibernate.annotations.Parameter(
+//                            name = "initial_value",
+//                            value = "1"
+//                    ), // 시작점
                     @org.hibernate.annotations.Parameter(
                             name = "increment_size",
                             value = "50"
@@ -34,12 +36,15 @@ public class Address extends DateBaseEntity {
     private String id;
 
     @Column(name = "city" , columnDefinition = "varchar(255) not null")
+    @Comment("도로명 주소")
     private String city;
 
     @Column(name = "street" , columnDefinition = "varchar(255) not null")
+    @Comment("상세 주소")
     private String street;
 
     @Column(name = "zip_code" , columnDefinition = "varchar(128)" , nullable = false)
+    @Comment("우편 번호")
     private String zipCode;
 
     /**
@@ -58,7 +63,6 @@ public class Address extends DateBaseEntity {
         member.getAddressList().add(this);
     }
 
-    @Builder
     private Address(String city, String street, String zipCode, Member member) {
         this.city = city;
         this.street = street;
@@ -67,13 +71,7 @@ public class Address extends DateBaseEntity {
     }
 
     public static Address createAddress(String city, String street , String zipCode, Member member){
-        Address address = Address.builder()
-                .city(city)
-                .street(street)
-                .zipCode(zipCode)
-                .member(member)
-                .build();
-        return address;
+        return new Address(city, street, zipCode, member);
     }
 
 }
