@@ -15,4 +15,6 @@ Jira
 
 https://wodud4019.atlassian.net/jira/software/projects/NEWDY/boards/5/timeline
 
-## 삭제 방식 : 얕은 삭제 방식 선택
+스토리보드 작성중
+
+https://docs.google.com/presentation/d/1O6UaWOVGlt0RPkaDqjbwPgy_tedwBOSfp3pHmG8Wyiw/edit?usp=sharing 
