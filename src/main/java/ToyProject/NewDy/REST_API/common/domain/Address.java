@@ -18,10 +18,10 @@ public class Address extends DateBaseEntity {
     @GeneratedValue(generator = "custom_generator")
     @GenericGenerator(name = "custom_generator",
             parameters = {
-                    @org.hibernate.annotations.Parameter(
-                            name = "initial_value",
-                            value = "1"
-                    ), // 시작점
+//                    @org.hibernate.annotations.Parameter(
+//                            name = "initial_value",
+//                            value = "1"
+//                    ), // 시작점
                     @org.hibernate.annotations.Parameter(
                             name = "increment_size",
                             value = "50"
@@ -63,7 +63,6 @@ public class Address extends DateBaseEntity {
         member.getAddressList().add(this);
     }
 
-    @Builder
     private Address(String city, String street, String zipCode, Member member) {
         this.city = city;
         this.street = street;
@@ -72,13 +71,7 @@ public class Address extends DateBaseEntity {
     }
 
     public static Address createAddress(String city, String street , String zipCode, Member member){
-        Address address = Address.builder()
-                .city(city)
-                .street(street)
-                .zipCode(zipCode)
-                .member(member)
-                .build();
-        return address;
+        return new Address(city, street, zipCode, member);
     }
 
 }

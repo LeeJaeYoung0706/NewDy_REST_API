@@ -1,6 +1,6 @@
-package ToyProject.NewDy.REST_API.member.repository;
+package ToyProject.NewDy.REST_API.point.repository;
 
-import ToyProject.NewDy.REST_API.member.domain.Point;
+import ToyProject.NewDy.REST_API.point.domain.Point;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
