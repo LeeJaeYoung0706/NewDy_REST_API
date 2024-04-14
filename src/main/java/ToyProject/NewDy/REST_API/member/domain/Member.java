@@ -1,5 +1,6 @@
 package ToyProject.NewDy.REST_API.member.domain;
 
+import ToyProject.NewDy.REST_API.auth.dto.SignUpMemberDTO;
 import ToyProject.NewDy.REST_API.common.domain.Address;
 import ToyProject.NewDy.REST_API.common.domain.DateBaseEntity;
 import ToyProject.NewDy.REST_API.common.enums.YesOrNo;
@@ -14,9 +15,11 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -29,8 +32,12 @@ import java.util.List;
 @DynamicInsert
 @DynamicUpdate
 @ToString(exclude = {"addressList" , "pointList"} , callSuper = true)
-@Table(name = "member")
-public class Member extends DateBaseEntity {
+@Table(name = "member"
+        //, uniqueConstraints = {@UniqueConstraint( columnNames = {"signinId"})}
+)
+public class Member extends DateBaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 362498820753181245L;
 
     @Id
     @GeneratedValue(generator = "custom_generator")
@@ -66,32 +73,63 @@ public class Member extends DateBaseEntity {
     private Date birth;
 
     // CascadeType.ALL 사용시 select 2번 나감 ( 트랜잭션 처리 안했을 경우 1번 select 하기 때문에 )
-    @OneToMany(mappedBy = "member" , cascade = CascadeType.PERSIST , orphanRemoval = true)
+    @OneToMany(mappedBy = "member" ,
+            cascade = CascadeType.PERSIST ,
+            orphanRemoval = true)
     private List<Point> pointList = new ArrayList<>();
 
     //탈퇴 여부
-    @Column(length = 32, name = "secessionYN" , columnDefinition = "varchar(32) default 'N'")
+    @Column(length = 32,
+            name = "secessionYN" ,
+            columnDefinition = "varchar(32) default 'N'")
     @Enumerated(EnumType.STRING)
     @Comment("탈퇴 여부 ( 얕은 삭제 )")
     private YesOrNo secessionYesOrNo = YesOrNo.N;
 
 
-    @Column(length = 32 , name = "grade" , columnDefinition = "varchar(32) default 'BRONZE'")
+    @Column(length = 32 ,
+            name = "grade" ,
+            columnDefinition = "varchar(32) default 'BRONZE'")
     @Enumerated(EnumType.STRING)
     @Comment("member 등급 혜텍 전용")
     private MemberGrade garde = MemberGrade.BRONZE;
 
-    @Builder
     private Member(Date birth, String signinId) {
         this.birth = birth;
         this.signinId = signinId;
     }
 
-    public static Member createMember(Date birth, String signinId){
-        return Member.builder()
-                .birth(birth)
-                .signinId(signinId)
-                .build();
+    private Member(String signinId) {
+        this.signinId = signinId;
+    }
+
+    public static Member createMember(SignUpMemberDTO signUpMemberDTO){
+        if (signUpMemberDTO.getBirth() != null) {
+            return new Member(signUpMemberDTO.getBirth() , signUpMemberDTO.getSigninId());
+        } else {
+            return new Member(signUpMemberDTO.getSigninId());
+        }
+    }
+
+    private void setSecessionYesOrNo(YesOrNo secessionYesOrNo) {
+        this.secessionYesOrNo = secessionYesOrNo;
+    }
+
+    public static void deleteMember(Member member){
+        member.setSecessionYesOrNo(YesOrNo.N);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return Objects.equals(id, member.id) && Objects.equals(addressList, member.addressList) && Objects.equals(signinId, member.signinId) && Objects.equals(birth, member.birth) && Objects.equals(pointList, member.pointList) && secessionYesOrNo == member.secessionYesOrNo && garde == member.garde;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, addressList, signinId, birth, pointList, secessionYesOrNo, garde);
     }
 }
 

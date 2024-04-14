@@ -4,10 +4,10 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class DefaultPointDecoratorService implements PointDecoratorService{
+public class DefaultPointDecorator implements PointDecoratorService{
 
     @Override
     public int addPoint(int point) {
-        return 0;
+        return point;
     }
 }

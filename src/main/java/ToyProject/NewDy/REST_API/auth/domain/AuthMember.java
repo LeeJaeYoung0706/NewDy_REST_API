@@ -1,5 +1,6 @@
 package ToyProject.NewDy.REST_API.auth.domain;
 
+import ToyProject.NewDy.REST_API.auth.dto.SignUpMemberDTO;
 import ToyProject.NewDy.REST_API.auth.enums.AuthEnum;
 import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;
 import jakarta.persistence.*;
@@ -59,10 +60,12 @@ public class AuthMember {
     @Column(length = 10, name = "auth_role")
     @Enumerated(EnumType.STRING)
     @ColumnDefault("'ROLE_USER'")
+    @Comment("security role")
     private AuthEnum authRole = AuthEnum.ROLE_USER;
 
     @Column(name = "enable")
     @ColumnDefault("true")
+    @Comment("회원 활성화 여부")
     private boolean enable = true;
 
     private AuthMember(String signinId, String password, AuthEnum authRole) {
@@ -76,12 +79,12 @@ public class AuthMember {
         this.password = password;
     }
 
-    public static AuthMember createUserAuthMember(String signinId , String password){
-        return new AuthMember(signinId, password);
+    public static AuthMember createUserAuthMember(SignUpMemberDTO signUpMemberDTO, String encodePassword){
+        return new AuthMember(signUpMemberDTO.getSigninId(), encodePassword);
     }
 
-    public static AuthMember createStaffAuthMember(String signinId , String password){
-        return new AuthMember(signinId, password , AuthEnum.ROLE_ADMIN);
+    public static AuthMember createAdminAuthMember(SignUpMemberDTO signUpMemberDTO, String encodePassword){
+        return new AuthMember(signUpMemberDTO.getSigninId(), encodePassword , AuthEnum.ROLE_ADMIN);
     }
 
 }

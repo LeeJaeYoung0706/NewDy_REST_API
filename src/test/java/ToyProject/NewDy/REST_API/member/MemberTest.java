@@ -1,9 +1,12 @@
 package ToyProject.NewDy.REST_API.member;
 
 
+import ToyProject.NewDy.REST_API.auth.dto.SignUpMemberDTO;
 import ToyProject.NewDy.REST_API.common.domain.Address;
 import ToyProject.NewDy.REST_API.common.repository.AddressRepository;
 import ToyProject.NewDy.REST_API.member.domain.Member;
+import ToyProject.NewDy.REST_API.member.enums.MemberGrade;
+import ToyProject.NewDy.REST_API.member.service.MemberService;
 import ToyProject.NewDy.REST_API.point.domain.Point;
 import ToyProject.NewDy.REST_API.member.enums.PointKind;
 import ToyProject.NewDy.REST_API.member.repository.MemberRepository;
@@ -14,11 +17,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,6 +42,13 @@ public class MemberTest {
     @Autowired
     PointRepository pointRepository;
 
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    @Qualifier(value = "defaultMemberService")
+    MemberService memberService;
+
     @PersistenceContext
     EntityManager entityManager;
 
@@ -43,26 +56,33 @@ public class MemberTest {
     @DisplayName("Member Save Test")
     @Transactional
     public void memberSaveTest() {
-        Member 멤버 = Member.createMember( Date.valueOf("2023-03-04"), "test@naver.com");
-        Point point = Point.createPoint(300, PointKind.SIGN_IN , 멤버);
-        Address 주소 = Address.createAddress("테스트 시티", " 테스트 스트릿 ", " 테스트 집코드 " , 멤버);
+        SignUpMemberDTO signUpMemberDTO = new SignUpMemberDTO("testId@naver.com" , bCryptPasswordEncoder.encode("test##22234") , null , "안녕 시티" , " 안녕 스트릿" , " 안녕 집코드" );
+        Member 저장멤버 = memberService.memberSave(signUpMemberDTO);
 
-        Member 저장멤버 = memberRepository.save(멤버);
-        Point save = pointRepository.save(point);
-        Address 저장주소 = addressRepository.save(주소);
+        Optional<Member> bySigninId = memberRepository.findBySigninId(저장멤버.getSigninId());
+        Optional<Member> byId = memberRepository.findById(저장멤버.getId());
 
-//        저장멤버.getPointList().remove(0);
-//        save.setMember(null);
+        assertThat(저장멤버.getSigninId()).isEqualTo(signUpMemberDTO.getSigninId());
+        assertThat(bySigninId.isPresent()).isTrue();
+        assertThat(byId.isPresent()).isTrue();
 
+        if (byId.isPresent()) {
+            assertThat(bySigninId.get()).isEqualTo(저장멤버);
+            assertThat(저장멤버.getAddressList().get(0)).isEqualTo(byId.get().getAddressList().get(0));
+        }
+    }
 
-//        memberRepository.delete(저장멤버);
-//        System.out.println("test  == " + save);
-//        저장멤버.getAddress().remove(저장주소);
+    @Test
+    @DisplayName("Member get Grade Test")
+    @Transactional
+    public void memberGetGradeTest() {
+        SignUpMemberDTO signUpMemberDTO = new SignUpMemberDTO("testId@naver.com" , bCryptPasswordEncoder.encode("test##22234") , null , "안녕 시티" , " 안녕 스트릿" , " 안녕 집코드" );
+        Member 저장멤버 = memberService.memberSave(signUpMemberDTO);
 
-        //객체 맞는지 검증
-        assertThat(저장주소).isEqualTo(멤버.getAddressList().get(0));
-        assertThat(저장주소.getMember()).isEqualTo(멤버);
-        assertThat(저장주소.getMember()).isEqualTo(멤버);
-        assertThat(point.getPoint()).isEqualTo(멤버.getPointList().get(0).getPoint());
+        //Optional<Member> grade = memberRepository.findById(저장멤버.getId());
+
+//        if (grade.isPresent()) {
+//            assertThat(grade.get().getGarde()).isEqualTo(MemberGrade.BRONZE);
+//        }
     }
 }

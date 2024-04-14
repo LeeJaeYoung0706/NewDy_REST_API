@@ -2,9 +2,14 @@ package ToyProject.NewDy.REST_API.auth.controller;
 
 
 import ToyProject.NewDy.REST_API.auth.controller.swagger.AuthenticationControllerSwagger;
+import ToyProject.NewDy.REST_API.auth.dto.SignUpMemberDTO;
 import ToyProject.NewDy.REST_API.auth.service.AuthService;
 import ToyProject.NewDy.REST_API.common.lib.response.Response;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +20,9 @@ public class AuthenticationController implements AuthenticationControllerSwagger
 
     private final AuthService authService;
 
-
-    public Response<?> memberSave(){
-        return Response.builder(200 , null).build();
+    public Response<?> memberSave(@RequestBody @Valid SignUpMemberDTO signUpMemberDTO, BindingResult bindingResult) throws BindException {
+        if(bindingResult.hasErrors())
+            throw new BindException(bindingResult);
+        return Response.builder(200 , authService.memberSave(signUpMemberDTO)).build();
     }
 }

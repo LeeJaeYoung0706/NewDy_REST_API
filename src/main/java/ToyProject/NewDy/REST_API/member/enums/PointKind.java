@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public enum PointKind {
-    SIGN_IN
+    SIGN_UP, SIGN_IN
 }

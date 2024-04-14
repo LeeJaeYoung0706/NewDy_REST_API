@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum MemberGrade {
-    BRONZE("BRONZE" , 1.05f),
-    SILVER("SILVER" , 1.10f);
+    BRONZE("BRONZE" , 1.00f),
+    SILVER("SILVER" , 1.05f);
 
     private final String GRADE;
     private final float PointPlus;

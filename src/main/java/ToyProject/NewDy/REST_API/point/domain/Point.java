@@ -44,6 +44,7 @@ public class Point  {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    //referencedColumnName 를 생략하는 이유는 자동으로 상대 테이블의 PK를 잡아주기 때문입니다. ( 생략 시 )
     private Member member;
 
     @Column(name = "accumulation_date" , updatable = false)
