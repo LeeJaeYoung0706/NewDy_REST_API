@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,9 +21,10 @@ public class AuthenticationController implements AuthenticationControllerSwagger
 
     private final AuthService authService;
 
-    public Response<?> memberSave(@RequestBody @Valid SignUpMemberDTO signUpMemberDTO, BindingResult bindingResult) throws BindException {
+    @PostMapping("/signup")
+    public Response<String> memberSave(@RequestBody @Valid SignUpMemberDTO signUpMemberDTO, BindingResult bindingResult) throws BindException {
         if(bindingResult.hasErrors())
             throw new BindException(bindingResult);
-        return Response.builder(200 , authService.memberSave(signUpMemberDTO)).build();
+        return authService.memberSave(signUpMemberDTO);
     }
 }

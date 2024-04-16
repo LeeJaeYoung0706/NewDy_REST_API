@@ -1,11 +1,13 @@
 package ToyProject.NewDy.REST_API.point.domain;
 
+import ToyProject.NewDy.REST_API.common.lib.exception.NotEnoughSumPointException;
 import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;
 import ToyProject.NewDy.REST_API.member.domain.Member;
 import ToyProject.NewDy.REST_API.member.enums.PointKind;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -23,6 +25,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"member"} , callSuper = true)
+@DynamicUpdate
 public class Point  {
 
     @Id
@@ -55,7 +58,7 @@ public class Point  {
 
     @Column(name = "point_value")
     @Comment("포인트 량")
-    private int point;
+    private int pointValue;
 
     @Column(name = "kind")
     @Enumerated(EnumType.STRING)
@@ -63,8 +66,8 @@ public class Point  {
 
     // 일대 다 업데이트 처리 테스트
     @Builder
-    private Point(int point, PointKind kind) {
-        this.point = point;
+    private Point(int pointValue, PointKind kind) {
+        this.pointValue = pointValue;
         this.kind = kind;
     }
 
@@ -77,10 +80,10 @@ public class Point  {
         member.getPointList().add(this);
     }
 
-    public static Point createPoint(int point, PointKind kind, Member member) {
+    public static Point createPoint(int pointValue, PointKind kind, Member member) {
         Point result = Point.builder()
                 .kind(kind)
-                .point(point)
+                .pointValue(pointValue)
                 .build();
         result.setMember(member);
         return result;

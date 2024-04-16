@@ -4,6 +4,7 @@ import ToyProject.NewDy.REST_API.auth.dto.SignUpMemberDTO;
 import ToyProject.NewDy.REST_API.common.domain.Address;
 import ToyProject.NewDy.REST_API.common.domain.DateBaseEntity;
 import ToyProject.NewDy.REST_API.common.enums.YesOrNo;
+import ToyProject.NewDy.REST_API.common.lib.exception.NotEnoughSumPointException;
 import ToyProject.NewDy.REST_API.common.sequences.CustomSequenceGenerator;
 import ToyProject.NewDy.REST_API.member.enums.MemberGrade;
 import ToyProject.NewDy.REST_API.point.domain.Point;
@@ -94,6 +95,11 @@ public class Member extends DateBaseEntity implements Serializable {
     @Comment("member 등급 혜텍 전용")
     private MemberGrade garde = MemberGrade.BRONZE;
 
+    @Column(name = "point" ,
+            columnDefinition = "bigint default '0'")
+    @Comment("포인트")
+    private int point;
+
     private Member(Date birth, String signinId) {
         this.birth = birth;
         this.signinId = signinId;
@@ -103,20 +109,33 @@ public class Member extends DateBaseEntity implements Serializable {
         this.signinId = signinId;
     }
 
-    public static Member createMember(SignUpMemberDTO signUpMemberDTO){
-        if (signUpMemberDTO.getBirth() != null) {
-            return new Member(signUpMemberDTO.getBirth() , signUpMemberDTO.getSigninId());
-        } else {
-            return new Member(signUpMemberDTO.getSigninId());
-        }
-    }
-
     private void setSecessionYesOrNo(YesOrNo secessionYesOrNo) {
         this.secessionYesOrNo = secessionYesOrNo;
     }
 
-    public static void deleteMember(Member member){
+    // 비지니스 로직
+    public void deleteMember(Member member){
         member.setSecessionYesOrNo(YesOrNo.N);
+    }
+
+    public void addPoint(int point) {
+        this.point += point;
+    }
+
+    public void removePoint(int point) {
+        boolean checkPositive = (this.point - point) < 0;
+        if (checkPositive) {
+            this.point = 0;
+        }
+        this.point += point;
+    }
+
+    public static Member createMember(SignUpMemberDTO signUpMemberDTO){
+        if (signUpMemberDTO.getBirth() != null) {
+            return new Member(signUpMemberDTO.getBirth(), signUpMemberDTO.getSigninId());
+        } else {
+            return new Member(signUpMemberDTO.getSigninId());
+        }
     }
 
     @Override
