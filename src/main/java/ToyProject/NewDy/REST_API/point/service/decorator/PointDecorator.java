@@ -6,10 +6,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PointDecorator implements PointDecoratorService {
 
-    private final PointDecoratorService pointService;
+    private final PointDecoratorService pointDecoratorService;
 
     @Override
     public int addPoint(int point) {
-        return pointService.addPoint(point);
+        return pointDecoratorService.addPoint(point);
     }
 }

@@ -9,8 +9,14 @@ import org.springframework.stereotype.Service;
 @Service
 @Qualifier(value = "percentPointService")
 public class PercentPointService implements PointService{
+
     @Override
     public void addPoint(Member member, int point, PointKind kind) {
+
+    }
+
+    @Override
+    public void setGRADE_ADDITION(boolean value) {
 
     }
 }
