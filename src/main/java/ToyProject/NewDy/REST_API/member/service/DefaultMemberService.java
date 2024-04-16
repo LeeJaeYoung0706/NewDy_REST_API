@@ -53,6 +53,7 @@ public class DefaultMemberService extends MemberSaveTemplate implements MemberSe
         pointService.addPoint(member, 500 , PointKind.SIGN_UP);
     }
 
+    @Transactional(readOnly = true)
     public boolean existSigninIdCheck(String signinId){
         return memberRepository.existsBySigninId(signinId);
     }
