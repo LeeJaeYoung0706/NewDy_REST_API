@@ -77,7 +77,7 @@ spring:
     console.enabled: true
   datasource:
     driver-class-name: org.h2.Driver
-    jdbc-url: jdbc:h2:mem:test
+    jdbc-url: jdbc:h2:tcp://localhost:9092/~/test
     username: sa
     password:
     p6spy:
