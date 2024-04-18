@@ -18,16 +18,16 @@ public abstract class MemberSaveTemplate{
 
     public Member memberSave(SignUpMemberRequestDTO signUpMemberDTO) {
 //        Member member = Member.createMember(signUpMemberDTO);
-        Member member = memberCreateBranch(signUpMemberDTO.getSigninId(), Optional.ofNullable(signUpMemberDTO.getBirth()));
+        Member member = memberCreateBranch(signUpMemberDTO);
         changeMemberSaveDerivation(signUpMemberDTO, member);
         return member;
     }
 
-    private Member memberCreateBranch(String signinId, Optional<Date> optionalBirth) {
+    private Member memberCreateBranch(SignUpMemberRequestDTO signUpMemberDTO) {
         return MemberSaveTransferCreateBuilder
                 .builder()
-                .signinId(signinId)
-                .birth(optionalBirth)
+                .signinId(signUpMemberDTO.getSigninId())
+                .birth(Optional.ofNullable(signUpMemberDTO.getBirth()))
                 .build();
     }
 
