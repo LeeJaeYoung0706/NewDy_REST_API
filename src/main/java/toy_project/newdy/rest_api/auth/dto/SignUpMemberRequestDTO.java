@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "회원 저장 객체")
-public class SignUpMemberDTO {
+public class SignUpMemberRequestDTO {
 
     @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$")
     @Schema(description = "이메일 형식 로그인 아이디")

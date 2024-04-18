@@ -2,7 +2,7 @@ package toy_project.newdy.rest_api.auth.controller;
 
 
 import toy_project.newdy.rest_api.auth.controller.swagger.AuthenticationControllerSwagger;
-import toy_project.newdy.rest_api.auth.dto.SignUpMemberDTO;
+import toy_project.newdy.rest_api.auth.dto.SignUpMemberRequestDTO;
 import toy_project.newdy.rest_api.auth.service.AuthService;
 import toy_project.newdy.rest_api.common.lib.response.Response;
 import jakarta.validation.Valid;
@@ -22,7 +22,7 @@ public class AuthenticationController implements AuthenticationControllerSwagger
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public Response<String> memberSave(@RequestBody @Valid SignUpMemberDTO signUpMemberDTO, BindingResult bindingResult) throws BindException {
+    public Response<String> memberSave(@RequestBody @Valid SignUpMemberRequestDTO signUpMemberDTO, BindingResult bindingResult) throws BindException {
         if(bindingResult.hasErrors())
             throw new BindException(bindingResult);
         return authService.memberSave(signUpMemberDTO);

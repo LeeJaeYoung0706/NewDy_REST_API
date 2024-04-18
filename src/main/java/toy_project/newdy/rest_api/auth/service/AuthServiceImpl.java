@@ -1,7 +1,7 @@
 package toy_project.newdy.rest_api.auth.service;
 
 import toy_project.newdy.rest_api.auth.domain.AuthMember;
-import toy_project.newdy.rest_api.auth.dto.SignUpMemberDTO;
+import toy_project.newdy.rest_api.auth.dto.SignUpMemberRequestDTO;
 import toy_project.newdy.rest_api.auth.repository.AuthMemberRepository;
 import toy_project.newdy.rest_api.common.lib.response.Response;
 import toy_project.newdy.rest_api.common.service.AddressService;
@@ -29,14 +29,14 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     @Transactional
-    public Response<String> memberSave(SignUpMemberDTO signUpMemberDTO) {
+    public Response<String> memberSave(SignUpMemberRequestDTO signUpMemberDTO) {
         authMemberSave(signUpMemberDTO);
         Member member = memberService.memberSave(signUpMemberDTO);
         return Response.builder(200 , member.getSigninId()).build();
     }
 
     // 인증 객체 저장
-    private void authMemberSave(SignUpMemberDTO signUpMemberDTO) {
+    private void authMemberSave(SignUpMemberRequestDTO signUpMemberDTO) {
         // 비밀번호 암호화
         String enCodePassword = enCodePassword(signUpMemberDTO.getPassword());
         // auth 객체 생성

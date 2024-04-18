@@ -1,6 +1,6 @@
 package toy_project.newdy.rest_api.member.service;
 
-import toy_project.newdy.rest_api.auth.dto.SignUpMemberDTO;
+import toy_project.newdy.rest_api.auth.dto.SignUpMemberRequestDTO;
 import toy_project.newdy.rest_api.common.domain.Address;
 import toy_project.newdy.rest_api.member.domain.Member;
 import toy_project.newdy.rest_api.member.enums.PointKind;
@@ -30,7 +30,7 @@ public class DefaultMemberService extends MemberSaveTemplate implements MemberSe
 
     @Override
     @Transactional
-    public Member memberSave(SignUpMemberDTO signUpMemberDTO) {
+    public Member memberSave(SignUpMemberRequestDTO signUpMemberDTO) {
 
         if (existSigninIdCheck(signUpMemberDTO.getSigninId()))
             throw new IllegalStateException("이미 존재하는 아이디입니다.");
@@ -48,7 +48,7 @@ public class DefaultMemberService extends MemberSaveTemplate implements MemberSe
      */
     @Override
     @Transactional
-    protected void changeMemberSaveDerivation(SignUpMemberDTO signUpMemberDTO, Member member) {
+    protected void changeMemberSaveDerivation(SignUpMemberRequestDTO signUpMemberDTO, Member member) {
         Address.createAddress(signUpMemberDTO.getCity(), signUpMemberDTO.getStreet(), signUpMemberDTO.getZipCode(), member);
         pointService.addPoint(member, 500 , PointKind.SIGN_UP);
     }

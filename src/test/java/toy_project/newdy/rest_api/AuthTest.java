@@ -1,7 +1,7 @@
 package toy_project.newdy.rest_api;
 
 import toy_project.newdy.rest_api.auth.domain.AuthMember;
-import toy_project.newdy.rest_api.auth.dto.SignUpMemberDTO;
+import toy_project.newdy.rest_api.auth.dto.SignUpMemberRequestDTO;
 import toy_project.newdy.rest_api.auth.enums.AuthEnum;
 import toy_project.newdy.rest_api.auth.enums.MenuAuthEnum;
 import toy_project.newdy.rest_api.auth.repository.AuthMemberRepository;
@@ -82,9 +82,9 @@ public class AuthTest {
     public void emailRegTest() {
         String encode = bCryptPasswordEncoder.encode("Wodud@@1121");
 
-        SignUpMemberDTO errorSignUpMemberDTO = new SignUpMemberDTO("testnaver.com", "wodud!!11", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
-        SignUpMemberDTO normalSignUpMemberDTO = new SignUpMemberDTO("test@naver.com", "wodud!!11", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
-        SignUpMemberDTO error2SignUpMemberDTO = new SignUpMemberDTO("test@navercom", "wodud!!11", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
+        SignUpMemberRequestDTO errorSignUpMemberDTO = new SignUpMemberRequestDTO("testnaver.com", "wodud!!11", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
+        SignUpMemberRequestDTO normalSignUpMemberDTO = new SignUpMemberRequestDTO("test@naver.com", "wodud!!11", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
+        SignUpMemberRequestDTO error2SignUpMemberDTO = new SignUpMemberRequestDTO("test@navercom", "wodud!!11", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
@@ -103,7 +103,7 @@ public class AuthTest {
     @Transactional
     @DisplayName("회원 가입 시 권한 테이블 저장")
     public void saveAuthMember() {
-        SignUpMemberDTO signUpMemberDTO = new SignUpMemberDTO("testId@naver.com" , bCryptPasswordEncoder.encode("test##22234") , null , "안녕 시티" , " 안녕 스트릿" , " 안녕 집코드" );
+        SignUpMemberRequestDTO signUpMemberDTO = new SignUpMemberRequestDTO("testId@naver.com" , bCryptPasswordEncoder.encode("test##22234") , null , "안녕 시티" , " 안녕 스트릿" , " 안녕 집코드" );
         Response<String> stringResponse = authService.memberSave(signUpMemberDTO);
         Assertions.assertThat(stringResponse.getData()).isEqualTo(signUpMemberDTO.getSigninId());
     }
@@ -111,8 +111,8 @@ public class AuthTest {
     @Test
     @DisplayName("비밀번호 바인딩 테스트")
     public void MockMvcAuthSavePwdBindingTest() throws Exception {
-        SignUpMemberDTO errorSignUpMemberDTO = new SignUpMemberDTO("test@naver.com", "112233", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
-        SignUpMemberDTO normalSignUpMemberDTO = new SignUpMemberDTO("test2@naver.com", "wodud!!11", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
+        SignUpMemberRequestDTO errorSignUpMemberDTO = new SignUpMemberRequestDTO("test@naver.com", "112233", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
+        SignUpMemberRequestDTO normalSignUpMemberDTO = new SignUpMemberRequestDTO("test2@naver.com", "wodud!!11", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
 
         // binding Error
         mockMvc.perform(post("/auth/signup")
@@ -135,9 +135,9 @@ public class AuthTest {
     @Test
     @DisplayName("아이디 바인딩 테스트")
     public void MockMvcAuthSaveSigninIdBindingTest () throws Exception {
-        SignUpMemberDTO errorSignUpMemberDTO = new SignUpMemberDTO("testnaver.com", "wodud!!11", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
-        SignUpMemberDTO normalSignUpMemberDTO = new SignUpMemberDTO("test3@naver.com", "wodud!!11", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
-        SignUpMemberDTO error2SignUpMemberDTO = new SignUpMemberDTO("test4@navercom", "wodud!!11", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
+        SignUpMemberRequestDTO errorSignUpMemberDTO = new SignUpMemberRequestDTO("testnaver.com", "wodud!!11", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
+        SignUpMemberRequestDTO normalSignUpMemberDTO = new SignUpMemberRequestDTO("test3@naver.com", "wodud!!11", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
+        SignUpMemberRequestDTO error2SignUpMemberDTO = new SignUpMemberRequestDTO("test4@navercom", "wodud!!11", null, "테스트 시티", "테스트 스트릿", "테스트 집코드");
         // binding Error
         mockMvc.perform(post("/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON)

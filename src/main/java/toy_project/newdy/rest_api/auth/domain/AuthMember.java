@@ -1,6 +1,6 @@
 package toy_project.newdy.rest_api.auth.domain;
 
-import toy_project.newdy.rest_api.auth.dto.SignUpMemberDTO;
+import toy_project.newdy.rest_api.auth.dto.SignUpMemberRequestDTO;
 import toy_project.newdy.rest_api.auth.enums.AuthEnum;
 import toy_project.newdy.rest_api.common.sequences.CustomSequenceGenerator;
 import jakarta.persistence.*;
@@ -78,11 +78,11 @@ public class AuthMember {
         this.password = password;
     }
 
-    public static AuthMember createUserAuthMember(SignUpMemberDTO signUpMemberDTO, String encodePassword){
+    public static AuthMember createUserAuthMember(SignUpMemberRequestDTO signUpMemberDTO, String encodePassword){
         return new AuthMember(signUpMemberDTO.getSigninId(), encodePassword);
     }
 
-    public static AuthMember createAdminAuthMember(SignUpMemberDTO signUpMemberDTO, String encodePassword){
+    public static AuthMember createAdminAuthMember(SignUpMemberRequestDTO signUpMemberDTO, String encodePassword){
         return new AuthMember(signUpMemberDTO.getSigninId(), encodePassword , AuthEnum.ROLE_ADMIN);
     }
 

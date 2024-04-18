@@ -1,6 +1,6 @@
 package toy_project.newdy.rest_api.common.service;
 
-import toy_project.newdy.rest_api.auth.dto.SignUpMemberDTO;
+import toy_project.newdy.rest_api.auth.dto.SignUpMemberRequestDTO;
 import toy_project.newdy.rest_api.common.domain.Address;
 import toy_project.newdy.rest_api.common.repository.AddressRepository;
 import toy_project.newdy.rest_api.member.domain.Member;
@@ -17,13 +17,13 @@ public class AddressServiceImpl implements AddressService {
 
     // 오버로딩 member 객체 용
     @Override
-    public Address addressSave(SignUpMemberDTO signUpMemberDTO , Member member){
+    public Address addressSave(SignUpMemberRequestDTO signUpMemberDTO , Member member){
         Address address = Address.createAddress(signUpMemberDTO.getCity(), signUpMemberDTO.getStreet(), signUpMemberDTO.getZipCode(), member);
         return addressRepository.save(address);
     }
 
     @Override
-    public Address addressSave(SignUpMemberDTO signUpMemberDTO , String memberId){
+    public Address addressSave(SignUpMemberRequestDTO signUpMemberDTO , String memberId){
         // 멤버 아이디 찾아서 Member 객체 만드는 로직 추가
 
         Address address = Address.createAddress(signUpMemberDTO.getCity(), signUpMemberDTO.getStreet(), signUpMemberDTO.getZipCode(), null);

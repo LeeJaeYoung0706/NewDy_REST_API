@@ -16,7 +16,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import toy_project.newdy.rest_api.auth.dto.SignUpMemberDTO;
 import toy_project.newdy.rest_api.common.domain.Address;
 import toy_project.newdy.rest_api.common.domain.DateBaseEntity;
 import toy_project.newdy.rest_api.common.enums.YesOrNo;
@@ -109,9 +108,9 @@ public class Member extends DateBaseEntity implements Serializable {
     private MemberGrade garde = MemberGrade.BRONZE;
 
     @Column(name = "point" ,
-            columnDefinition = "bigint default '0'")
+            columnDefinition = "bigint default 0")
     @Comment("포인트")
-    private int point;
+    private long point;
 
     private Member(Date birth, String signinId) {
         this.birth = birth;
@@ -131,11 +130,11 @@ public class Member extends DateBaseEntity implements Serializable {
         member.setSecessionYesOrNo(YesOrNo.N);
     }
 
-    public void addPoint(int point) {
+    public void addPoint(long point) {
         this.point += point;
     }
 
-    public void removePoint(int point) {
+    public void removePoint(long point) {
         boolean checkPositive = (this.point - point) < 0;
         if (checkPositive) {
             this.point = 0;
@@ -143,12 +142,8 @@ public class Member extends DateBaseEntity implements Serializable {
         this.point += point;
     }
 
-    public static Member createMember(SignUpMemberDTO signUpMemberDTO){
-        if (signUpMemberDTO.getBirth() != null) {
-            return new Member(signUpMemberDTO.getBirth(), signUpMemberDTO.getSigninId());
-        } else {
-            return new Member(signUpMemberDTO.getSigninId());
-        }
+    public static Member createMember(String signinId, Date birth){
+       return new Member(birth, signinId);
     }
 
     @Override

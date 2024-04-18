@@ -1,7 +1,7 @@
 package toy_project.newdy.rest_api;
 
 import org.springframework.test.context.ActiveProfiles;
-import toy_project.newdy.rest_api.auth.dto.SignUpMemberDTO;
+import toy_project.newdy.rest_api.auth.dto.SignUpMemberRequestDTO;
 import toy_project.newdy.rest_api.common.repository.AddressRepository;
 import toy_project.newdy.rest_api.member.domain.Member;
 import toy_project.newdy.rest_api.member.enums.MemberGrade;
@@ -52,7 +52,7 @@ public class MemberTest {
     @Transactional
     public void memberSaveTest() {
         //given
-        SignUpMemberDTO signUpMemberDTO = new SignUpMemberDTO("testId@naver.com" , bCryptPasswordEncoder.encode("test##22234") , null , "안녕 시티" , " 안녕 스트릿" , " 안녕 집코드" );
+        SignUpMemberRequestDTO signUpMemberDTO = new SignUpMemberRequestDTO("testId@naver.com" , bCryptPasswordEncoder.encode("test##22234") , null , "안녕 시티" , " 안녕 스트릿" , " 안녕 집코드" );
 
         //when
         Member 저장멤버 = memberService.memberSave(signUpMemberDTO);

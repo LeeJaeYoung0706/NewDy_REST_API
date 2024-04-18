@@ -1,6 +1,6 @@
 package toy_project.newdy.rest_api.auth.controller.swagger;
 
-import toy_project.newdy.rest_api.auth.dto.SignUpMemberDTO;
+import toy_project.newdy.rest_api.auth.dto.SignUpMemberRequestDTO;
 import toy_project.newdy.rest_api.common.lib.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,7 +31,7 @@ public interface AuthenticationControllerSwagger {
         }
     )
     Response<String> memberSave(
-        @Parameter(description = "회원가입 정보", required = true)
+            @Parameter(description = "회원가입 정보", required = true)
         @io.swagger.v3.oas.annotations.parameters.RequestBody(
             content = @Content(examples = {
                 @ExampleObject(name = "회원 저장 예제", value = """
@@ -45,5 +45,5 @@ public interface AuthenticationControllerSwagger {
                     }
                 """)
             }
-        )) SignUpMemberDTO signUpMemberDTO, BindingResult bindingResult) throws BindException;
+        )) SignUpMemberRequestDTO signUpMemberDTO, BindingResult bindingResult) throws BindException;
 }
