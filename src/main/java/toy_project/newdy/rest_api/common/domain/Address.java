@@ -8,6 +8,8 @@ import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.UUID;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,14 +28,14 @@ public class Address extends DateBaseEntity {
                             name = "increment_size",
                             value = "50"
                     ), // 캐싱 사이즈
-                    @org.hibernate.annotations.Parameter(
-                            name = "prefix",
-                            value = "address"
-                    )
+//                    @org.hibernate.annotations.Parameter(
+//                            name = "prefix",
+//                            value = "address"
+//                    )
             },
             type = CustomSequenceGenerator.class)
     @Column(name = "address_id")
-    private String id;
+    private UUID id;
 
     @Column(name = "city" , columnDefinition = "varchar(255) not null")
     @Comment("도로명 주소")

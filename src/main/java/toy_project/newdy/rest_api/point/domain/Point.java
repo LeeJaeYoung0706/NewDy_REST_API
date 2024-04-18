@@ -12,6 +12,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * 포인트 관련 Entity
@@ -35,14 +36,14 @@ public class Point  {
                             name = "increment_size",
                             value = "50"
                     ), // 캐싱 사이즈
-                    @org.hibernate.annotations.Parameter(
-                            name = "prefix",
-                            value = "point"
-                    )
+//                    @org.hibernate.annotations.Parameter(
+//                            name = "prefix",
+//                            value = "point"
+//                    )
             },
             type = CustomSequenceGenerator.class)
     @Column(name = "point_id")
-    private String id;
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

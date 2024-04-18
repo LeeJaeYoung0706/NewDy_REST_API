@@ -3,6 +3,7 @@ package toy_project.newdy.rest_api.member.service;
 import toy_project.newdy.rest_api.auth.dto.SignUpMemberRequestDTO;
 import toy_project.newdy.rest_api.common.domain.Address;
 import toy_project.newdy.rest_api.member.domain.Member;
+import toy_project.newdy.rest_api.member.domain.MemberSaveTransferCreateBuilder;
 import toy_project.newdy.rest_api.member.enums.PointKind;
 import toy_project.newdy.rest_api.member.repository.MemberRepository;
 import toy_project.newdy.rest_api.point.service.PointService;
@@ -11,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Qualifier(value = "defaultMemberService")
@@ -37,8 +40,16 @@ public class DefaultMemberService extends MemberSaveTemplate implements MemberSe
 
         Member member = super.memberSave(signUpMemberDTO);
         Member save = memberRepository.save(member);
-        //log.info("동일성 비교 = {}  , {}", member == save , member);
         return save;
+    }
+
+    @Override
+    protected Member memberSaveTransfer(SignUpMemberRequestDTO signUpMemberDTO) {
+        return MemberSaveTransferCreateBuilder
+                .builder()
+                .signinId(signUpMemberDTO.getSigninId())
+                .birth(Optional.ofNullable(signUpMemberDTO.getBirth()))
+                .build();
     }
 
     /**

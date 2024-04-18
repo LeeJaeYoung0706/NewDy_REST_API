@@ -16,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import toy_project.newdy.rest_api.common.domain.Address;
 import toy_project.newdy.rest_api.common.domain.DateBaseEntity;
 import toy_project.newdy.rest_api.common.enums.YesOrNo;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -48,6 +50,7 @@ import java.util.Objects;
 @Table(name = "member"
         //, uniqueConstraints = {@UniqueConstraint( columnNames = {"signinId"})}
 )
+@Slf4j
 public class Member extends DateBaseEntity implements Serializable {
 
     private static final long serialVersionUID = 362498820753181245L;
@@ -60,14 +63,14 @@ public class Member extends DateBaseEntity implements Serializable {
                             name = "increment_size",
                             value = "50"
                     ), // 캐싱 사이즈
-                    @org.hibernate.annotations.Parameter(
-                            name = "prefix",
-                            value = "member"
-                    )
+//                    @org.hibernate.annotations.Parameter(
+//                            name = "prefix",
+//                            value = "member"
+//                    )
             },
             type = CustomSequenceGenerator.class)
     @Column(name = "member_id")
-    private String id;
+    private UUID id;
 
     /**
      * 기존 OneToMany 이지만 다대일로 변경해서 사용합니다. 성능이슈 및 유지보수를 위해서
@@ -114,10 +117,6 @@ public class Member extends DateBaseEntity implements Serializable {
 
     private Member(Date birth, String signinId) {
         this.birth = birth;
-        this.signinId = signinId;
-    }
-
-    private Member(String signinId) {
         this.signinId = signinId;
     }
 

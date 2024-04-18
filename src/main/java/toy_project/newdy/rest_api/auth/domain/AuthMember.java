@@ -10,6 +10,8 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.UUID;
+
 /**
  * auth Service가 MSA 형태로 변화한다면 Member Service의 Member Entity와 연관관계를 맺기 어려워 짐으로
  * signInId를 공유하고 이를 통해 페인클라이언트나 웹클라이언트로 접근하는 방식으로 선택하려고합니다.
@@ -37,14 +39,14 @@ public class AuthMember {
                             name = "increment_size",
                             value = "50"
                     ), // 캐싱 사이즈
-                    @org.hibernate.annotations.Parameter(
-                            name = "prefix",
-                            value = "auth"
-                    )
+//                    @org.hibernate.annotations.Parameter(
+//                            name = "prefix",
+//                            value = "auth"
+//                    )
             },
             type = CustomSequenceGenerator.class)
     @Column(name = "auth_member_id")
-    private String id;
+    private UUID id;
 
     @Column(length = 255, name = "signin_id" , unique = true, nullable = false)
     @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$")

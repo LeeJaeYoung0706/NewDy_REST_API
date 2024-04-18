@@ -25,6 +25,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -131,6 +133,20 @@ public class AuthTest {
                 .andReturn();
     }
 
+    @Test
+    @DisplayName("멤버 저장 로직 정상 작동 확인")
+    public void MockMvcMemberTransferTest() throws Exception {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SignUpMemberRequestDTO normalSignUpMemberDTO = new SignUpMemberRequestDTO("test2@naver.com", "wodud!!11", simpleDateFormat.parse("2024-04-03") , "테스트 시티", "테스트 스트릿", "테스트 집코드");
+
+        // normal
+        mockMvc.perform(post("/auth/signup")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(normalSignUpMemberDTO))
+                ).andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+    }
 
     @Test
     @DisplayName("아이디 바인딩 테스트")
