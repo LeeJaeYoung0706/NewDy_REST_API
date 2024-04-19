@@ -28,6 +28,11 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+// 정적 쿼리 아이디로 검색
+@NamedQuery(
+        name = "AuthMember.findBySigninId",
+        query = "select a from AuthMember a where a.signinId = :signinId"
+)
 @ToString(exclude = {})
 public class AuthMember {
 
@@ -49,7 +54,7 @@ public class AuthMember {
     private UUID id;
 
     @Column(length = 255, name = "signin_id" , unique = true, nullable = false)
-    @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$")
+    @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{6,18}$")
     @Comment("email 형식의 로그인 아이디")
     private String signinId;
 

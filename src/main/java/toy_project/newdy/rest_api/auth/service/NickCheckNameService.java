@@ -43,12 +43,14 @@ public class NickCheckNameService {
 
     private boolean vilificationExistCheck(String excludeNumberNickName) {
         boolean contains = vilificationList.contains(excludeNumberNickName);
-        log.info(createRegex());
         boolean matches = excludeNumberNickName.matches(createRegex());
-
         return contains || matches;
     }
 
+    /**
+     * 정규식 완성 메소드
+     * @return
+     */
     private String createRegex() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(".*");
@@ -67,10 +69,18 @@ public class NickCheckNameService {
         return stringBuilder.toString();
     }
 
+    /**
+     * 금칙어 추가하기
+     * @param vilificationValue
+     */
     public void addVilificationList(String vilificationValue) {
         vilificationList.add(vilificationValue);
     }
 
+    /**
+     * 금칙어 제외하기
+     * @param vilificationValue
+     */
     public void removeVilificationList(String vilificationValue) {
         vilificationList.remove(vilificationValue);
     }

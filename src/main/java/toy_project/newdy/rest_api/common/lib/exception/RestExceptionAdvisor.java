@@ -1,6 +1,7 @@
 package toy_project.newdy.rest_api.common.lib.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import toy_project.newdy.rest_api.common.lib.error_utils.ErrorCode;
 import toy_project.newdy.rest_api.common.lib.response.Response;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

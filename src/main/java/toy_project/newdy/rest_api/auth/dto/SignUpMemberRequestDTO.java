@@ -17,7 +17,7 @@ import java.util.Objects;
 @Schema(description = "회원 저장 객체")
 public class SignUpMemberRequestDTO {
 
-    @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$")
+    @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{6,18}$")
     @Schema(description = "이메일 형식 로그인 아이디")
     private String signinId;
 

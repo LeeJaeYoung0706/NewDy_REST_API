@@ -10,7 +10,7 @@ public class RestException extends RuntimeException{
 
     private final int code;
 
-    private RestException(String message , int code) {
+    public RestException(String message , int code) {
         super(message);
         this.code = code;
     }

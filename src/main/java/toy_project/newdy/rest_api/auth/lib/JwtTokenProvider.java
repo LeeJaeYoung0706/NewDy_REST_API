@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtTokenProvider {
@@ -41,6 +42,11 @@ public class JwtTokenProvider {
             e.printStackTrace();
             return false;
         }
+    }
+    // signin id 가져오기
+    public String getSignInId(String token) {
+        Claims claims = getClaims(token);
+        return claims.get("signId", String.class);
     }
 
     // 토큰 만료 시간

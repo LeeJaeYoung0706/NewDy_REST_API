@@ -20,8 +20,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Value("${spring.jwt.header}")
-    private String SPRING_JWT_HEADER;
     private JwtTokenProvider jwtTokenProvider;
     private SecurityFilter securityFilter;
 

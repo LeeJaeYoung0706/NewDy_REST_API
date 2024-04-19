@@ -1,7 +1,8 @@
 package toy_project.newdy.rest_api.auth.controller.swagger;
 
-import org.springframework.web.bind.annotation.RequestPart;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
+import toy_project.newdy.rest_api.auth.dto.SignInMemberResponseDTO;
 import toy_project.newdy.rest_api.auth.dto.SignUpMemberRequestDTO;
 import toy_project.newdy.rest_api.common.lib.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,25 +19,27 @@ import org.springframework.validation.BindingResult;
 @Tag(name = "AuthenticationController", description = "인증 컨트롤러")
 public interface AuthenticationControllerSwagger {
 
+
+    //region 회원 저장 메소드 memberSave
     @Operation(
-        summary = "회원 저장",
-        description = " 회원 저장 정보 ( 이메일 아이디, 패스워드, 생일, 주소 )"
+            summary = "회원 저장",
+            description = " 회원 저장 정보 ( 이메일 아이디, 패스워드, 생일, 주소 )"
     )
     @ApiResponses(
-        value = {
-            @ApiResponse(responseCode = "200" , description = "성공" , content = {
-                    @Content(schema = @Schema(implementation = String.class))
-            }),
-            @ApiResponse(responseCode = "405" , description = "알맞은 값을 입력해주세요."),
-            @ApiResponse(responseCode = "406" , description = "알맞은 값을 입력해주세요."),
-            @ApiResponse(responseCode = "408" , description = "해당 아이디는 존재합니다.")
-        }
+            value = {
+                    @ApiResponse(responseCode = "200" , description = "성공" , content = {
+                            @Content(schema = @Schema(implementation = String.class))
+                    }),
+                    @ApiResponse(responseCode = "405" , description = "알맞은 값을 입력해주세요."),
+                    @ApiResponse(responseCode = "406" , description = "알맞은 값을 입력해주세요."),
+                    @ApiResponse(responseCode = "408" , description = "해당 아이디는 존재합니다.")
+            }
     )
     Response<String> memberSave(
-        @Parameter(description = "회원가입 정보", required = true)
-        @io.swagger.v3.oas.annotations.parameters.RequestBody(
-            content = @Content(examples = {
-                @ExampleObject(name = "회원 저장 예제", value = """
+            @Parameter(description = "회원가입 정보", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(examples = {
+                            @ExampleObject(name = "회원 저장 예제", value = """
                     {
                         "signinId" : "test@naver.com",
                         "password" : "wodud$$1121",
@@ -47,8 +50,37 @@ public interface AuthenticationControllerSwagger {
                         "nickName" : "test"
                     }
                 """)
+                    }
+                    )) SignUpMemberRequestDTO signUpMemberDTO, BindingResult bindingResult) throws BindException;
+    //endregion
+
+
+    //region 회원 로그인 메소드 memberSignIn()
+    @Operation(
+        summary = "회원 로그인",
+        description = "로그인 ( 이메일 아이디, 패스워드 )"
+    )
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200" , description = "성공" , content = {
+                @Content(schema = @Schema(implementation = String.class))
+            }),
+            @ApiResponse(responseCode = "406" , description = "아이디 또는 비밀번호가 일치하지 않습니다.")
+        }
+    )
+    Response<SignInMemberResponseDTO> memberSignIn(
+        @Parameter(description = "로그인", required = true)
+        @RequestBody(
+            content = @Content(examples = {
+                @ExampleObject(name = "로그인 예제", value = """
+                    {
+                        "signinId" : "test@naver.com",
+                        "password" : "wodud$$1121"
+                    }
+                """)
             }
-        )) SignUpMemberRequestDTO signUpMemberDTO, BindingResult bindingResult) throws BindException;
+        )) SignInMemberResponseDTO signInMemberResponseDTO, BindingResult bindingResult) throws BindException;
+    //endregion
 
     @Operation(
             summary = "파일 저장",

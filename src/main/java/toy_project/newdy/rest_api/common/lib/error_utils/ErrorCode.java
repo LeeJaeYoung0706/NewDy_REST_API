@@ -1,4 +1,4 @@
-package toy_project.newdy.rest_api.common.lib.exception;
+package toy_project.newdy.rest_api.common.lib.error_utils;
 
 import lombok.Getter;
 
@@ -25,6 +25,7 @@ public enum ErrorCode {
     , STATE(408); // argument 문제
 
     private final int value;
+
     ErrorCode(int value) {
         this.value = value;
     }
