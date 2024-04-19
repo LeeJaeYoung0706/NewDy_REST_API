@@ -1,12 +1,23 @@
 package toy_project.newdy.rest_api.common.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import toy_project.newdy.rest_api.common.sequences.CustomSequenceGenerator;
 import toy_project.newdy.rest_api.member.domain.Member;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.GenericGenerator;
+
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -26,14 +37,14 @@ public class Address extends DateBaseEntity {
                             name = "increment_size",
                             value = "50"
                     ), // 캐싱 사이즈
-                    @org.hibernate.annotations.Parameter(
-                            name = "prefix",
-                            value = "address"
-                    )
+//                    @org.hibernate.annotations.Parameter(
+//                            name = "prefix",
+//                            value = "address"
+//                    )
             },
             type = CustomSequenceGenerator.class)
     @Column(name = "address_id")
-    private String id;
+    private UUID id;
 
     @Column(name = "city" , columnDefinition = "varchar(255) not null")
     @Comment("도로명 주소")

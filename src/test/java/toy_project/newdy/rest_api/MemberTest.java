@@ -52,7 +52,7 @@ public class MemberTest {
     @Transactional
     public void memberSaveTest() {
         //given
-        SignUpMemberRequestDTO signUpMemberDTO = new SignUpMemberRequestDTO("testId@naver.com" , bCryptPasswordEncoder.encode("test##22234") , null , "안녕 시티" , " 안녕 스트릿" , " 안녕 집코드" );
+        SignUpMemberRequestDTO signUpMemberDTO = new SignUpMemberRequestDTO("testId@naver.com" , bCryptPasswordEncoder.encode("test##22234") , null , "안녕 시티" , " 안녕 스트릿" , " 안녕 집코드", "테스트 닉네임");
 
         //when
         Member 저장멤버 = memberService.memberSave(signUpMemberDTO);
@@ -70,6 +70,8 @@ public class MemberTest {
             assertThat(저장멤버.getGarde()).isEqualTo(MemberGrade.BRONZE);
         }
     }
+
+
 
     @Test
     @DisplayName("point 처리 테스트")

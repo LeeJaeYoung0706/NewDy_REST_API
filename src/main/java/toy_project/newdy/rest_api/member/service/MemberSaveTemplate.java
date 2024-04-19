@@ -17,19 +17,12 @@ import java.util.Optional;
 public abstract class MemberSaveTemplate{
 
     public Member memberSave(SignUpMemberRequestDTO signUpMemberDTO) {
-//        Member member = Member.createMember(signUpMemberDTO);
-        Member member = memberCreateBranch(signUpMemberDTO);
+        Member member = memberSaveTransfer(signUpMemberDTO);
         changeMemberSaveDerivation(signUpMemberDTO, member);
         return member;
     }
 
-    private Member memberCreateBranch(SignUpMemberRequestDTO signUpMemberDTO) {
-        return MemberSaveTransferCreateBuilder
-                .builder()
-                .signinId(signUpMemberDTO.getSigninId())
-                .birth(Optional.ofNullable(signUpMemberDTO.getBirth()))
-                .build();
-    }
+    protected abstract Member memberSaveTransfer(SignUpMemberRequestDTO signUpMemberDTO);
 
     protected abstract void changeMemberSaveDerivation(SignUpMemberRequestDTO signUpMemberDTO, Member member);
 }

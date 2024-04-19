@@ -1,10 +1,25 @@
 package toy_project.newdy.rest_api.point.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import toy_project.newdy.rest_api.common.sequences.CustomSequenceGenerator;
 import toy_project.newdy.rest_api.member.domain.Member;
 import toy_project.newdy.rest_api.member.enums.PointKind;
-import jakarta.persistence.*;
-import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
@@ -12,6 +27,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * 포인트 관련 Entity
@@ -35,14 +51,14 @@ public class Point  {
                             name = "increment_size",
                             value = "50"
                     ), // 캐싱 사이즈
-                    @org.hibernate.annotations.Parameter(
-                            name = "prefix",
-                            value = "point"
-                    )
+//                    @org.hibernate.annotations.Parameter(
+//                            name = "prefix",
+//                            value = "point"
+//                    )
             },
             type = CustomSequenceGenerator.class)
     @Column(name = "point_id")
-    private String id;
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

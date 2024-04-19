@@ -20,8 +20,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Value("${spring.jwt.header}")
-    private String SPRING_JWT_HEADER;
     private JwtTokenProvider jwtTokenProvider;
     private SecurityFilter securityFilter;
 
@@ -53,7 +51,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers(HttpMethod.OPTIONS)
                                 .permitAll()
-                                .requestMatchers("/auth/signin" , "/auth/signup")
+                                .requestMatchers("/auth/**")
                                 .permitAll()
                                 .anyRequest().authenticated()
                 ).addFilterBefore(securityFilter , UsernamePasswordAuthenticationFilter.class);

@@ -35,7 +35,6 @@ public enum AuthEnum {
         int index = 0;
         for (MenuAuthEnum menuEnum : menuAuthEnum) {
             boolean matchResult = Arrays.stream(authEnum.grantOptionList).anyMatch(match -> match == menuEnum);
-//            log.info("test = {} index = {}" , matchResult , index);
             if (index == 0) {
                 result = matchResult;
             } else {

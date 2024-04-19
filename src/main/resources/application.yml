@@ -1,6 +1,11 @@
 
 server:
   port: 8080
+  error:
+    include-binding-errors: always
+    include-stacktrace: never
+    include-exception: false
+    include-message: never
 
 spring:
   application:
@@ -38,7 +43,7 @@ spring:
         include-parameter-values: true
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true

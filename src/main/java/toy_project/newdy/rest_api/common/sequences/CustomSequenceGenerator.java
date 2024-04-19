@@ -38,11 +38,11 @@ public class CustomSequenceGenerator implements IdentifierGenerator {
 //                .orElse(0L);
         UUID uuid = UUID.randomUUID();
 
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(prefix);
-        stringBuilder.append("_");
-        stringBuilder.append(uuid);
+//        StringBuilder stringBuilder = new StringBuilder();
+//        stringBuilder.append(prefix);
+//        stringBuilder.append("_");
+//        stringBuilder.append(uuid);
 
-        return stringBuilder.toString();
+        return uuid;
     }
 }
