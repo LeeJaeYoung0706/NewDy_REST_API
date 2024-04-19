@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
@@ -39,4 +40,21 @@ public class SignUpMemberRequestDTO {
     @Schema(description = "우편 번호")
     private String zipCode;
 
+    @NotBlank
+    @Schema(description = "닉네임")
+    @Pattern(regexp = "^[a-zA-Z0-9가-힣]{4,20}$" , message = "닉네임은 영어,숫자,한글만 가능합니다.")
+    private String nickName;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SignUpMemberRequestDTO that = (SignUpMemberRequestDTO) o;
+        return Objects.equals(signinId, that.signinId) && Objects.equals(password, that.password) && Objects.equals(birth, that.birth) && Objects.equals(city, that.city) && Objects.equals(street, that.street) && Objects.equals(zipCode, that.zipCode) && Objects.equals(nickName, that.nickName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(signinId, password, birth, city, street, zipCode, nickName);
+    }
 }

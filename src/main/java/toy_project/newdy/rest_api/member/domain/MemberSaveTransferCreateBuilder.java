@@ -7,17 +7,16 @@ import java.util.Date;
 import java.util.Optional;
 
 @Getter
-@Slf4j
 public class MemberSaveTransferCreateBuilder {
 
     private Date birth = null;
-    private String signinId = null;
+    private String signinId;
+    private String nickName;
 
     private MemberSaveTransferCreateBuilder() {
     }
 
     public MemberSaveTransferCreateBuilder birth(Optional<Date> birth){
-
         birth.ifPresent( (birthDate) -> {
             this.birth = birthDate;
         });
@@ -29,11 +28,19 @@ public class MemberSaveTransferCreateBuilder {
         return this;
     }
 
+    public MemberSaveTransferCreateBuilder nickName(String nickName){
+        this.nickName = nickName;
+        return this;
+    }
+
     public static MemberSaveTransferCreateBuilder builder(){
         return new MemberSaveTransferCreateBuilder();
     }
 
     public Member build() {
-        return Member.createMember(signinId, birth);
+        if (nickName != null && signinId != null)
+            return Member.createMember(signinId, birth, nickName);
+        else
+            throw new IllegalArgumentException("닉네임과 로그인 아이디가 불명확합니다.");
     }
 }

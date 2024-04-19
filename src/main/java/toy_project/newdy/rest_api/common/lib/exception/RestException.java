@@ -2,6 +2,7 @@ package toy_project.newdy.rest_api.common.lib.exception;
 
 
 import lombok.Getter;
+import toy_project.newdy.rest_api.common.lib.response.Response;
 
 
 @Getter
@@ -14,8 +15,8 @@ public class RestException extends RuntimeException{
         this.code = code;
     }
 
-    public static RestException build(String message, int code) {
-        return new RestException(message , code);
+    public static Response<?> build(String message, int code) {
+        return Response.builder(code, message).build();
     }
 
 }

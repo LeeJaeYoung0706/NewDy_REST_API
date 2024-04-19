@@ -53,7 +53,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers(HttpMethod.OPTIONS)
                                 .permitAll()
-                                .requestMatchers("/auth/signin" , "/auth/signup")
+                                .requestMatchers("/auth/**")
                                 .permitAll()
                                 .anyRequest().authenticated()
                 ).addFilterBefore(securityFilter , UsernamePasswordAuthenticationFilter.class);

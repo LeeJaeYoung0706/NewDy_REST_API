@@ -49,6 +49,7 @@ public class DefaultMemberService extends MemberSaveTemplate implements MemberSe
                 .builder()
                 .signinId(signUpMemberDTO.getSigninId())
                 .birth(Optional.ofNullable(signUpMemberDTO.getBirth()))
+                .nickName(signUpMemberDTO.getNickName())
                 .build();
     }
 

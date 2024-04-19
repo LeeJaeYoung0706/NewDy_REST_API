@@ -1,6 +1,11 @@
 package toy_project.newdy.rest_api.auth.controller;
 
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 import toy_project.newdy.rest_api.auth.controller.swagger.AuthenticationControllerSwagger;
 import toy_project.newdy.rest_api.auth.dto.SignUpMemberRequestDTO;
 import toy_project.newdy.rest_api.auth.service.AuthService;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationController implements AuthenticationControllerSwagger {
 
     private final AuthService authService;
@@ -26,5 +32,12 @@ public class AuthenticationController implements AuthenticationControllerSwagger
         if(bindingResult.hasErrors())
             throw new BindException(bindingResult);
         return authService.memberSave(signUpMemberDTO);
+    }
+
+    @PostMapping(value = "/fileSave",
+            consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    @Override
+    public Response<String> fileSave(@RequestPart("multipartFile") MultipartFile multipartFile){
+        return Response.builder(200, "string").build();
     }
 }

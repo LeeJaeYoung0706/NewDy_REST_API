@@ -83,6 +83,11 @@ public class Member extends DateBaseEntity implements Serializable {
     @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$")
     private String signinId;
 
+    @Column(length = 40, name = "nick_name" , unique = true, nullable = false)
+    @Comment("닉네임")
+    @Pattern(regexp = "^[a-zA-Z0-9가-힣]{4,20}$" , message = "닉네임은 영어,숫자,한글만 가능합니다.")
+    private String nickName;
+
     @Column(name = "birth")
     @Temporal(TemporalType.DATE)
     @Comment("생일")
@@ -115,18 +120,17 @@ public class Member extends DateBaseEntity implements Serializable {
     @Comment("포인트")
     private long point;
 
-    private Member(Date birth, String signinId) {
+
+    // 생성자 birth는 null로 포함될 수 있습니다. ( 선택 사항 )
+    private Member(Date birth, String signinId, String nickName) {
         this.birth = birth;
         this.signinId = signinId;
+        this.nickName = nickName;
     }
 
-    private void setSecessionYesOrNo(YesOrNo secessionYesOrNo) {
-        this.secessionYesOrNo = secessionYesOrNo;
-    }
-
-    // 비지니스 로직
-    public void deleteMember(Member member){
-        member.setSecessionYesOrNo(YesOrNo.N);
+    // 비즈니스 로직
+    public void deleteMember() {
+        this.secessionYesOrNo = YesOrNo.Y;
     }
 
     public void addPoint(long point) {
@@ -134,17 +138,14 @@ public class Member extends DateBaseEntity implements Serializable {
     }
 
     public void removePoint(long point) {
-        boolean checkPositive = (this.point - point) < 0;
-        if (checkPositive) {
-            this.point = 0;
-        }
-        this.point += point;
+        this.point = Math.max(0, this.point - point);
     }
 
-    public static Member createMember(String signinId, Date birth){
-       return new Member(birth, signinId);
+    public static Member createMember(String signinId, Date birth, String nickName) {
+        return new Member(birth, signinId, nickName);
     }
 
+    // Equals and HashCode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

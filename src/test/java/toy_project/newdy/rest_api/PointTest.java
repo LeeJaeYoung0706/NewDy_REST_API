@@ -44,7 +44,7 @@ public class PointTest {
                 bCryptPasswordEncoder.encode("test##22234") ,
                 null , "안녕 시티" ,
                 " 안녕 스트릿" ,
-                " 안녕 집코드" );
+                " 안녕 집코드", " 테스트 닉네임" );
         Member member = memberService.memberSave(signUpMemberDTO);
         // when
         pointService.addPoint(member, 100, PointKind.SIGN_IN);

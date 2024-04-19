@@ -1,5 +1,7 @@
 package toy_project.newdy.rest_api.auth.controller.swagger;
 
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 import toy_project.newdy.rest_api.auth.dto.SignUpMemberRequestDTO;
 import toy_project.newdy.rest_api.common.lib.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,7 +33,7 @@ public interface AuthenticationControllerSwagger {
         }
     )
     Response<String> memberSave(
-            @Parameter(description = "회원가입 정보", required = true)
+        @Parameter(description = "회원가입 정보", required = true)
         @io.swagger.v3.oas.annotations.parameters.RequestBody(
             content = @Content(examples = {
                 @ExampleObject(name = "회원 저장 예제", value = """
@@ -41,9 +43,16 @@ public interface AuthenticationControllerSwagger {
                         "birth" : "2023-04-03",
                         "city" : "경기도 안양시 관악대로",
                         "street" : "e편한세상 아파트",
-                        "zipCode" : "37293"
+                        "zipCode" : "37293",
+                        "nickName" : "test"
                     }
                 """)
             }
         )) SignUpMemberRequestDTO signUpMemberDTO, BindingResult bindingResult) throws BindException;
+
+    @Operation(
+            summary = "파일 저장",
+            description = " 파일 저장 정보 ( 이메일 아이디, 패스워드, 생일, 주소 )"
+    )
+    Response<String> fileSave(@Parameter(description = "이미지", required = true) MultipartFile multipartFile);
 }
