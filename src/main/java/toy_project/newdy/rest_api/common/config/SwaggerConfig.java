@@ -27,4 +27,12 @@ public class SwaggerConfig {
                 .pathsToMatch("/auth/**")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi errorApi() {
+        return GroupedOpenApi.builder()
+                .group("ErrorCode Group")
+                .pathsToMatch("/error_code/**")
+                .build();
+    }
 }
