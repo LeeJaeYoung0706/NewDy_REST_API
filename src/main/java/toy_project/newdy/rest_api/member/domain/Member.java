@@ -36,6 +36,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static toy_project.newdy.rest_api.common.lib.RegexList.EMAIL_REGEX;
+import static toy_project.newdy.rest_api.common.lib.RegexList.NICKNAME_REGEX;
+import static toy_project.newdy.rest_api.common.lib.RegexList.PASSWORD_REGEX;
+
 @Entity
 @Getter
 // 정적 쿼리 아이디로 검색
@@ -80,12 +84,12 @@ public class Member extends DateBaseEntity implements Serializable {
 
     @Column(length = 255, name = "signin_id" , unique = true, nullable = false)
     @Comment("로그인 아이디, 이메일 형식")
-    @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{6,18}$")
+    @Pattern(regexp = EMAIL_REGEX , message = "이메일 아이디를 입력해주세요.")
     private String signinId;
 
     @Column(length = 40, name = "nick_name" , unique = true, nullable = false)
     @Comment("닉네임")
-    @Pattern(regexp = "^[a-zA-Z0-9가-힣]{4,20}$" , message = "닉네임은 영어,숫자,한글만 가능합니다.")
+    @Pattern(regexp = NICKNAME_REGEX , message = "닉네임은 영어,숫자,한글만 가능합니다.")
     private String nickName;
 
     @Column(name = "birth")

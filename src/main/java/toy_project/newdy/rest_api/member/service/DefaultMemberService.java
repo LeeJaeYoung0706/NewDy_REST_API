@@ -34,12 +34,22 @@ public class DefaultMemberService extends MemberSaveTemplate implements MemberSe
         return memberRepository.findBySigninId(signinId).orElseThrow(() -> new IllegalArgumentException("유저 정보를 찾을 수 없습니다."));
     }
 
+    //region 멤버 저장 메소드
+    /**
+     * 멤버 저장
+     * @param signUpMemberDTO
+     * @return
+     * @throws RestException
+     */
     @Override
     @Transactional
     public Member memberSave(SignUpMemberRequestDTO signUpMemberDTO) throws RestException {
 
         if (existSigninIdCheck(signUpMemberDTO.getSigninId()))
             throw new IllegalStateException("이미 존재하는 아이디입니다.");
+
+        if (existNicknameCheck(signUpMemberDTO.getNickName()))
+            throw new IllegalStateException("이미 존재하는 닉네임입니다.");
 
         Member member = super.memberSave(signUpMemberDTO);
         Member saveMember = memberRepository.save(member);
@@ -50,10 +60,28 @@ public class DefaultMemberService extends MemberSaveTemplate implements MemberSe
         return saveMember;
     }
 
+    /**
+     * 로그인 아이디 중복 체크
+     * @param signinId
+     * @return
+     */
+    @Override
     @Transactional(readOnly = true)
     public boolean existSigninIdCheck(String signinId){
         return memberRepository.existsBySigninId(signinId);
     }
+
+    /**
+     * 닉네임 중복 체크
+     * @param nickName
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existNicknameCheck(String nickName){
+        return memberRepository.existsByNickName(nickName);
+    }
+
 
     /**
      * Member 저장시 변경될 가능성으로 인해 확장성 확보를 위한 Template 패턴
@@ -81,5 +109,5 @@ public class DefaultMemberService extends MemberSaveTemplate implements MemberSe
                 .nickName(signUpMemberDTO.getNickName())
                 .build();
     }
-
+    //endregion
 }

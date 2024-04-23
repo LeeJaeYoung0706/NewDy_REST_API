@@ -12,6 +12,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
+import static toy_project.newdy.rest_api.common.lib.RegexList.EMAIL_REGEX;
+
 /**
  * auth Service가 MSA 형태로 변화한다면 Member Service의 Member Entity와 연관관계를 맺기 어려워 짐으로
  * signInId를 공유하고 이를 통해 페인클라이언트나 웹클라이언트로 접근하는 방식으로 선택하려고합니다.
@@ -54,7 +56,7 @@ public class AuthMember {
     private UUID id;
 
     @Column(length = 255, name = "signin_id" , unique = true, nullable = false)
-    @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{6,18}$")
+    @Pattern(regexp = EMAIL_REGEX , message = "이메일 아이디를 입력해주세요.")
     @Comment("email 형식의 로그인 아이디")
     private String signinId;
 

@@ -21,21 +21,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private JwtTokenProvider jwtTokenProvider;
-    private SecurityFilter securityFilter;
+    private final SecurityFilter securityFilter;
 
     @Autowired
     public void setJwtTokenProvider(JwtTokenProvider jwtTokenProvider){
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @Autowired
-    public void setSecurityFilter(SecurityFilter securityFilter) {
+    public SecurityConfig(SecurityFilter securityFilter) {
         this.securityFilter = securityFilter;
-    }
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -58,7 +52,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // Swagger 접근 관련
+    // Swagger 접근 필터 이후 Security 내에서 도 필요합니다.
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> {
