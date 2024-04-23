@@ -80,7 +80,7 @@ public class Member extends DateBaseEntity implements Serializable {
 
     @Column(length = 255, name = "signin_id" , unique = true, nullable = false)
     @Comment("로그인 아이디, 이메일 형식")
-    @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{6,18}$")
+    @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$")
     private String signinId;
 
     @Column(length = 40, name = "nick_name" , unique = true, nullable = false)

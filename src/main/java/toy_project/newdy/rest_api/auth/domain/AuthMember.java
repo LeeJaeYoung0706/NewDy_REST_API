@@ -54,7 +54,7 @@ public class AuthMember {
     private UUID id;
 
     @Column(length = 255, name = "signin_id" , unique = true, nullable = false)
-    @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{6,18}$")
+    @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$")
     @Comment("email 형식의 로그인 아이디")
     private String signinId;
 

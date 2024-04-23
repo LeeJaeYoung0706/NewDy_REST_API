@@ -50,7 +50,8 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 모두 접근 가능
-        final List<String> authURIList = List.of("/auth/**");
+        // h2 테스트 데이터 베이스 접근 , 스웨거 접근 , 로그인 및 회원 가입 접근
+        final List<String> authURIList = List.of("/auth/**" , "/swagger-ui/**" , "/v3/api-docs/**", "/h2-console/**");
 
         // 크롬 OPTIONS 요청 처리
         if ("OPTIONS".equals(request.getMethod())) {
