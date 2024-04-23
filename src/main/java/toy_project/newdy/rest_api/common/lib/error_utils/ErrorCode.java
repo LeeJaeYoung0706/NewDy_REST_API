@@ -22,7 +22,7 @@ public enum ErrorCode {
     , FORBIDDEN(403)            // 권한 없음
     , BINDING(405)     // 잘못된 형식의 파라미터
     , ARGUMENT(406) // argument 문제
-    , STATE(408); // argument 문제
+    , STATE(505); // state 문제
 
     private final int value;
 

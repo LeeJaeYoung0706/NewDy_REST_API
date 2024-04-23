@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SecurityFilter extends OncePerRequestFilter {
@@ -51,7 +53,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 모두 접근 가능
         // h2 테스트 데이터 베이스 접근 , 스웨거 접근 , 로그인 및 회원 가입 접근
-        final List<String> authURIList = List.of("/auth/**" , "/swagger-ui/**" , "/v3/api-docs/**", "/h2-console/**");
+        final List<String> authURIList = List.of("/auth/**" , "/swagger-ui/**" , "/v3/api-docs/**", "/h2-console/**" );
 
         // 크롬 OPTIONS 요청 처리
         if ("OPTIONS".equals(request.getMethod())) {
@@ -64,13 +66,19 @@ public class SecurityFilter extends OncePerRequestFilter {
             return;
         }
 
-        final String token = request.getHeader(SPRING_JWT_HEADER);
+        String bearerToken = request.getHeader(SPRING_JWT_HEADER);
 
         //region 토큰 검증
-        if(token == null){
+        if(bearerToken == null){
             errorResponse.error(ErrorCode.INVALID_TOKEN);
             return;
         }
+
+        if (!bearerToken.startsWith("Bearer ")) {
+            errorResponse.error(ErrorCode.INVALID_TOKEN);
+            return;
+        }
+        final String token = bearerToken.substring(7);
 
         try {
             if (!jwtTokenProvider.validateToken(token)) {
