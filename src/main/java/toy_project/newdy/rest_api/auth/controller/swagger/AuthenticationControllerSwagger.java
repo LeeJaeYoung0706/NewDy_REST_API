@@ -1,6 +1,7 @@
 package toy_project.newdy.rest_api.auth.controller.swagger;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import toy_project.newdy.rest_api.auth.dto.SignInMemberResponseDTO;
 import toy_project.newdy.rest_api.auth.dto.SignUpMemberRequestDTO;
@@ -81,6 +82,19 @@ public interface AuthenticationControllerSwagger {
             }
         )) SignInMemberResponseDTO signInMemberResponseDTO, BindingResult bindingResult) throws BindException;
     //endregion
+
+    @Operation(
+        summary = "회원 로그인 아이디 중복 검사",
+        description = "회원 로그인 아이디 중복 검사 ( 이메일 )"
+    )
+    @ApiResponses(
+        value = {
+                @ApiResponse(responseCode = "200" , description = "성공 // true -> 존재 합니다 , false -> 존재하지 않습니다."),
+                @ApiResponse(responseCode = "406" , description = "이메일 형식으로 입력해주세요.")
+        }
+    )
+    Response<Boolean> existsBySigninId(@Parameter(description = "로그인 아이디", required = true, example = "test@naver.com") String signinId) throws IllegalArgumentException;
+
 
     @Operation(
             summary = "파일 저장",

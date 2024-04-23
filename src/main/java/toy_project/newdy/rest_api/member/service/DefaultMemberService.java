@@ -65,6 +65,7 @@ public class DefaultMemberService extends MemberSaveTemplate implements MemberSe
      * @param signinId
      * @return
      */
+    @Override
     @Transactional(readOnly = true)
     public boolean existSigninIdCheck(String signinId){
         return memberRepository.existsBySigninId(signinId);
@@ -75,6 +76,7 @@ public class DefaultMemberService extends MemberSaveTemplate implements MemberSe
      * @param nickName
      * @return
      */
+    @Override
     @Transactional(readOnly = true)
     public boolean existNicknameCheck(String nickName){
         return memberRepository.existsByNickName(nickName);

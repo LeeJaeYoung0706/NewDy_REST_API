@@ -7,4 +7,6 @@ public interface MemberService {
 
     Member findBySigninId(String signinId);
     Member memberSave(SignUpMemberRequestDTO signUpMemberDTO);
+    boolean existSigninIdCheck(String signinId);
+    boolean existNicknameCheck(String nickName);
 }

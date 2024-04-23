@@ -11,17 +11,21 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.Objects;
 
+import static toy_project.newdy.rest_api.common.lib.RegexList.EMAIL_REGEX;
+import static toy_project.newdy.rest_api.common.lib.RegexList.NICKNAME_REGEX;
+import static toy_project.newdy.rest_api.common.lib.RegexList.PASSWORD_REGEX;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "회원 저장 객체")
 public class SignUpMemberRequestDTO {
 
-    @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$")
+    @Pattern(regexp = EMAIL_REGEX , message = "이메일 아이디를 입력해주세요.")
     @Schema(description = "이메일 형식 로그인 아이디")
     private String signinId;
 
-    @Pattern(regexp = "^(?!((?:[A-Za-z]+)|(?:[~!@#$%^&*()_+=]+)|(?:[0-9]+))$)[A-Za-z\\d~!@#$%^&*()_+=]{8,20}$")
+    @Pattern(regexp = PASSWORD_REGEX , message = "비밀번호 대소문자, 특수문자, 숫자 중 2개이상 포함 8~20글자로 입력해주세요.")
     @Schema(description = "비밀번호 대소문자, 특수문자, 숫자 중 2개이상 포함 8~20글자")
     private String password;
 
@@ -42,7 +46,7 @@ public class SignUpMemberRequestDTO {
 
     @NotBlank
     @Schema(description = "닉네임")
-    @Pattern(regexp = "^[a-zA-Z0-9가-힣]{4,20}$" , message = "닉네임은 영어,숫자,한글만 가능합니다.")
+    @Pattern(regexp = NICKNAME_REGEX , message = "닉네임은 영어,숫자,한글만 가능합니다.")
     private String nickName;
 
     @Override

@@ -52,11 +52,11 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // Swagger 접근 관련 필터 적용 후 필요 없습니다.
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return web -> {
-//            web.ignoring().requestMatchers("/h2-console/**", "/swagger-ui/**" , "/v3/api-docs/**", "/favicon.ico");
-//        };
-//    }
+    // Swagger 접근 필터 이후 Security 내에서 도 필요합니다.
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> {
+            web.ignoring().requestMatchers("/h2-console/**", "/swagger-ui/**" , "/v3/api-docs/**", "/favicon.ico");
+        };
+    }
 }
