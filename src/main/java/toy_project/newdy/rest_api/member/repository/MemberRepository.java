@@ -18,6 +18,7 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
     Optional<Member> findBySigninId(@Param("signinId") String signinId);
 
     boolean existsBySigninId(String signinId);
+    boolean existsByNickName(String nickName);
 
     //    @Query(value = "select m.garde from Member m where m.id = :id")
 //    Optional<MemberGrade> findGradeById(@Param("id") String id);
