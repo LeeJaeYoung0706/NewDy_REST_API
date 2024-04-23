@@ -95,6 +95,18 @@ public interface AuthenticationControllerSwagger {
     )
     Response<Boolean> existsBySigninId(@Parameter(description = "로그인 아이디", required = true, example = "test@naver.com") String signinId) throws IllegalArgumentException;
 
+    @Operation(
+            summary = "회원 닉네임 중복 검사",
+            description = "회원 닉네임 중복 검사 ( 이메일 )"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200" , description = "성공 // true -> 존재 합니다 , false -> 존재하지 않습니다."),
+                    @ApiResponse(responseCode = "406" , description = "4 ~ 20 글자 및 숫자,영어,한글만 가능합니다.")
+            }
+    )
+    Response<Boolean> existsByNickName(@Parameter(description = "닉네임", required = true, example = "exampleNickName") String nickName) throws IllegalArgumentException;
+
 
     @Operation(
             summary = "파일 저장",

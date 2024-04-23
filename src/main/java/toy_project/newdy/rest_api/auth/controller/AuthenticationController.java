@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import toy_project.newdy.rest_api.member.service.MemberService;
 
 import static toy_project.newdy.rest_api.common.lib.RegexList.EMAIL_REGEX;
+import static toy_project.newdy.rest_api.common.lib.RegexList.NICKNAME_REGEX;
 
 @RestController
 @RequestMapping("/auth")
@@ -49,6 +50,14 @@ public class AuthenticationController implements AuthenticationControllerSwagger
         if (!signinId.matches(EMAIL_REGEX))
             throw new IllegalArgumentException("이메일 형식이 아닙니다.");
         return Response.builder(200, memberService.existSigninIdCheck(signinId)).build();
+    }
+
+    @GetMapping("/nickNameCheck")
+    @Override
+    public Response<Boolean> existsByNickName(@RequestParam(value = "nickName") String nickName) throws IllegalArgumentException {
+        if (!nickName.matches(NICKNAME_REGEX))
+            throw new IllegalArgumentException("4 ~ 20 글자 및 숫자,영어,한글만 가능합니다.");
+        return Response.builder(200, memberService.existNicknameCheck(nickName)).build();
     }
 
     @PostMapping("/signin")
