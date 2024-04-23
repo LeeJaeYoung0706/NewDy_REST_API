@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import toy_project.newdy.rest_api.auth.controller.swagger.AuthenticationControllerSwagger;
+import toy_project.newdy.rest_api.auth.dto.SignInMemberRequestDTO;
 import toy_project.newdy.rest_api.auth.dto.SignInMemberResponseDTO;
 import toy_project.newdy.rest_api.auth.dto.SignUpMemberRequestDTO;
 import toy_project.newdy.rest_api.auth.service.AuthService;
@@ -62,10 +63,10 @@ public class AuthenticationController implements AuthenticationControllerSwagger
 
     @PostMapping("/signin")
     @Override
-    public Response<SignInMemberResponseDTO> memberSignIn(@RequestBody @Valid SignInMemberResponseDTO signInMemberResponseDTO, BindingResult bindingResult) throws BindException{
+    public Response<SignInMemberResponseDTO> memberSignIn(@RequestBody @Valid SignInMemberRequestDTO signInMemberRequestDTO, BindingResult bindingResult) throws BindException{
         if(bindingResult.hasErrors())
             throw new BindException(bindingResult);
-        return null;
+        return authService.signinMember(signInMemberRequestDTO);
     }
 
     @PostMapping(value = "/fileSave",

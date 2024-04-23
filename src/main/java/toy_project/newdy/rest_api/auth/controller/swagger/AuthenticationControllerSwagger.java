@@ -1,8 +1,8 @@
 package toy_project.newdy.rest_api.auth.controller.swagger;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import toy_project.newdy.rest_api.auth.dto.SignInMemberRequestDTO;
 import toy_project.newdy.rest_api.auth.dto.SignInMemberResponseDTO;
 import toy_project.newdy.rest_api.auth.dto.SignUpMemberRequestDTO;
 import toy_project.newdy.rest_api.common.lib.response.Response;
@@ -66,11 +66,12 @@ public interface AuthenticationControllerSwagger {
             @ApiResponse(responseCode = "200" , description = "성공" , content = {
                 @Content(schema = @Schema(implementation = String.class))
             }),
+            @ApiResponse(responseCode = "400" , description = "해당하는 유저를 찾을 수 없습니다."),
             @ApiResponse(responseCode = "406" , description = "아이디 또는 비밀번호가 일치하지 않습니다.")
         }
     )
     Response<SignInMemberResponseDTO> memberSignIn(
-        @Parameter(description = "로그인", required = true)
+            @Parameter(description = "로그인", required = true)
         @RequestBody(
             content = @Content(examples = {
                 @ExampleObject(name = "로그인 예제", value = """
@@ -80,7 +81,7 @@ public interface AuthenticationControllerSwagger {
                     }
                 """)
             }
-        )) SignInMemberResponseDTO signInMemberResponseDTO, BindingResult bindingResult) throws BindException;
+        )) SignInMemberRequestDTO signInMemberRequestDTO, BindingResult bindingResult) throws BindException;
     //endregion
 
     @Operation(
